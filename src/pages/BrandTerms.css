@@ -1,0 +1,102 @@
+.terms-container {
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px 120px;
+}
+
+.terms-card {
+  max-width: 640px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(58, 39, 53, 0.1);
+  box-shadow: 0 40px 52px rgba(245, 166, 201, 0.24);
+  padding: 40px 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.terms-card h2 {
+  margin: 0;
+  font-size: clamp(26px, 3vw, 34px);
+}
+
+.terms-intro {
+  margin: 0;
+  color: rgba(35, 22, 31, 0.72);
+  line-height: 1.7;
+}
+
+.terms-box {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(58, 39, 53, 0.12);
+  padding: 24px 28px;
+  max-height: 280px;
+  overflow-y: auto;
+  box-shadow: inset 0 0 0 1px rgba(58, 39, 53, 0.08);
+}
+
+.terms-box ol {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  line-height: 1.7;
+  color: rgba(35, 22, 31, 0.72);
+}
+
+.terms-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.terms-actions .primary,
+.terms-actions .secondary {
+  padding: 12px 22px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.terms-actions .primary {
+  border: none;
+  background: var(--coquette-rose);
+  color: var(--coquette-white);
+  box-shadow: 0 20px 32px rgba(245, 166, 201, 0.28);
+}
+
+.terms-actions .primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 26px 40px rgba(245, 166, 201, 0.34);
+}
+
+.terms-actions .secondary {
+  border: 1px solid rgba(58, 39, 53, 0.16);
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--coquette-soft-black);
+}
+
+.terms-actions .secondary:hover {
+  background: rgba(255, 216, 233, 0.35);
+}
+
+@media (max-width: 540px) {
+  .terms-card {
+    padding: 32px 24px;
+  }
+
+  .terms-actions {
+    flex-direction: column-reverse;
+  }
+
+  .terms-actions .primary,
+  .terms-actions .secondary {
+    width: 100%;
+  }
+}

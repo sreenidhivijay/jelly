@@ -1,0 +1,23 @@
+/* Utility classes for black/pink accents */
+.card-dark {
+  background: #120c13;
+  color: var(--coquette-white);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 40px rgba(18, 12, 19, 0.35);
+}
+
+.pill-dark {
+  background: rgba(18, 12, 19, 0.85);
+  color: var(--coquette-rose);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.button-dark {
+  background: #120c13;
+  color: var(--coquette-rose);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.button-dark:hover {
+  background: #1d141f;
+}

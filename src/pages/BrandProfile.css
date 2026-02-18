@@ -1,0 +1,53 @@
+.brand-profile-header {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.brand-header-row {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.brand-avatar-button {
+  border: none;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.brand-avatar-button img {
+  width: 100px;
+  height: 100px;
+  border-radius: 24px;
+  object-fit: cover;
+  border: 2px solid rgba(245, 166, 201, 0.4);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(35, 22, 31, 0.08);
+}
+
+.metric-label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(35, 22, 31, 0.55);
+  margin-bottom: 4px;
+}
+
+.metric-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--coquette-soft-black);
+}
+
+.campaign-progress-section {
+  /* Inherits from CreatorProfile.css but can be customized here */
+}

@@ -1,0 +1,9 @@
+export const MENTOR_INCOMING_REQUESTS_KEY = 'mentorIncomingRequests';
+export const NEW_INCOMING_REQUEST_EVENT = 'mentorIncomingRequestAdded';
+export const MENTOR_PROFILE_PHOTO_KEY = 'mentorProfilePhoto';
+export const MENTOR_COMPLETED_PACKAGES_KEY = 'mentorCompletedPackages';
+export const SIGNATURE_PACKAGE_APPLIED_EVENT = 'signaturePackageApplied';
+export const BRAND_PROFILE_PHOTO_KEY = 'brandProfilePhoto';
+export const BRAND_BIO_KEY = 'brandBio';
+export const BRAND_APPLICATIONS_KEY = 'brandApplications';
+export const BRAND_APPLICATION_ADDED_EVENT = 'brandApplicationAdded';

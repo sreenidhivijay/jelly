@@ -1,0 +1,94 @@
+.brand-brief-page {
+  max-width: 800px;
+  margin: 40px auto 120px;
+  padding: 0 24px;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: rgba(35, 22, 31, 0.6);
+  cursor: pointer;
+  margin-bottom: 24px;
+  padding: 0;
+}
+
+.back-button:hover {
+  color: var(--coquette-rose);
+}
+
+.brand-brief-card {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(58, 39, 53, 0.1);
+  box-shadow: 0 40px 52px rgba(245, 166, 201, 0.24);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.brand-hero {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  border-bottom: 1px solid rgba(58, 39, 53, 0.08);
+  padding-bottom: 24px;
+}
+
+.brand-hero img {
+  width: 100px;
+  height: 100px;
+  border-radius: 24px;
+  object-fit: cover;
+  border: 2px solid rgba(245, 166, 201, 0.4);
+}
+
+.brand-hero h2 {
+  margin: 0;
+  font-size: clamp(24px, 3vw, 32px);
+}
+
+.brand-tag {
+  margin: 4px 0 12px;
+  font-size: 14px;
+  color: rgba(35, 22, 31, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.brand-audience {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(35, 22, 31, 0.75);
+}
+
+section h3 {
+  margin: 0 0 12px;
+  font-size: 18px;
+}
+
+section ul {
+  margin: 0;
+  padding-left: 20px;
+  color: rgba(35, 22, 31, 0.72);
+  line-height: 1.6;
+}
+
+section p {
+  margin: 0;
+  color: rgba(35, 22, 31, 0.72);
+}
+
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.brand-brief-missing {
+  text-align: center;
+  padding: 80px 20px;
+  color: rgba(35, 22, 31, 0.6);
+}

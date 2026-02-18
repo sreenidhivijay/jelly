@@ -1,0 +1,250 @@
+.schedule-meeting-container {
+  max-width: 760px;
+  margin: 40px auto 100px;
+  padding: 36px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(58, 39, 53, 0.1);
+  box-shadow: 0 40px 52px rgba(245, 166, 201, 0.22);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.schedule-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.schedule-header h2 {
+  margin: 0;
+  font-size: clamp(28px, 3vw, 38px);
+}
+
+.schedule-header p {
+  margin: 0 auto;
+  max-width: 480px;
+  color: rgba(35, 22, 31, 0.7);
+  line-height: 1.7;
+}
+
+.repeating-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.repeating-option button {
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(58, 39, 53, 0.18);
+  background: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  transition: var(--transition-base);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+}
+
+.repeating-option button.selected,
+.repeating-option button:hover {
+  border-color: var(--coquette-rose);
+  background: rgba(255, 216, 233, 0.42);
+}
+
+.repeating-options {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(58, 39, 53, 0.12);
+  padding: 24px;
+}
+
+.repeat-days {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.repeat-day-button {
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(58, 39, 53, 0.16);
+  background: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: var(--transition-base);
+}
+
+.repeat-day-button.selected,
+.repeat-day-button:hover {
+  border-color: var(--coquette-rose);
+  background: rgba(255, 216, 233, 0.42);
+}
+
+.calendar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.calendar-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.calendar-navigation button {
+  padding: 8px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(58, 39, 53, 0.16);
+  background: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.calendar-navigation button:hover {
+  background: rgba(255, 216, 233, 0.35);
+}
+
+.calendar-header {
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(35, 22, 31, 0.72);
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: rgba(35, 22, 31, 0.6);
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.calendar-blank {
+  height: 44px;
+}
+
+.date {
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(58, 39, 53, 0.12);
+  background: rgba(255, 255, 255, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-base);
+  font-weight: 600;
+}
+
+.date.selected {
+  background: var(--coquette-rose);
+  color: var(--coquette-white);
+  border-color: transparent;
+}
+
+.date.disabled {
+  color: rgba(35, 22, 31, 0.3);
+  cursor: not-allowed;
+}
+
+.date:hover:not(.disabled) {
+  background: rgba(255, 216, 233, 0.42);
+}
+
+.time-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.time-slots h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.time {
+  padding: 10px 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(58, 39, 53, 0.16);
+  background: rgba(255, 255, 255, 0.88);
+  cursor: pointer;
+  transition: var(--transition-base);
+  font-size: 14px;
+  letter-spacing: 0.05em;
+}
+
+.time.selected,
+.time:hover {
+  border-color: var(--coquette-rose);
+  background: rgba(255, 216, 233, 0.45);
+}
+
+.no-timeslots {
+  color: rgba(35, 22, 31, 0.6);
+  font-size: 14px;
+  font-style: italic;
+}
+
+.request-meeting-button {
+  align-self: center;
+  padding: 16px 28px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--coquette-rose);
+  color: var(--coquette-white);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: var(--transition-base);
+  box-shadow: 0 24px 34px rgba(245, 166, 201, 0.32);
+}
+
+.request-meeting-button:disabled {
+  background: rgba(58, 39, 53, 0.16);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.request-meeting-button:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 30px 42px rgba(245, 166, 201, 0.38);
+}
+
+.schedule-missing {
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(35, 22, 31, 0.72);
+  font-size: 18px;
+}
+
+@media (max-width: 640px) {
+  .schedule-meeting-container {
+    padding: 28px 22px;
+  }
+
+  .repeating-option {
+    flex-direction: column;
+  }
+}

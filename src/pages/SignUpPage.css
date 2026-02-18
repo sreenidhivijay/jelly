@@ -1,0 +1,238 @@
+/* CSS for SignUpPage */
+.signup-page {
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  background-color: #fdf6f9; /* A very light pink */
+}
+
+.signup-card {
+  max-width: 480px;
+  width: 100%;
+  padding: 32px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16px; /* Assuming from var(--radius-lg) */
+  border: 1px solid rgba(58, 39, 53, 0.1);
+  box-shadow: 0 40px 52px rgba(245, 166, 201, 0.24);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.signup-header {
+  text-align: center;
+}
+
+.signup-header .eyebrow {
+  text-transform: uppercase;
+  color: #888;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.signup-header h2 {
+  margin: 0.5rem 0;
+  font-size: 2rem;
+}
+
+.signup-header p {
+  color: rgba(35, 22, 31, 0.7);
+  line-height: 1.7;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(35, 22, 31, 0.6);
+  font-weight: 600;
+}
+
+.input {
+  padding: 12px 14px;
+  border-radius: 8px; /* Assuming from var(--radius-sm) */
+  border: 1px solid rgba(58, 39, 53, 0.16);
+  background: rgba(255, 255, 255, 0.92);
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #f5a6c9; /* var(--coquette-rose) */
+  box-shadow: 0 0 0 4px rgba(245, 166, 201, 0.2);
+}
+
+.password-requirements {
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #666;
+}
+
+.password-requirements li.valid {
+  color: #4caf50;
+}
+
+.password-requirements li.invalid {
+  color: #f44336;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.radio-group label {
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(58, 39, 53, 0.16);
+  background: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: block;
+}
+
+.radio-group label.selected {
+  border-color: #f5a6c9; /* var(--coquette-rose) */
+  background: rgba(255, 216, 233, 0.45);
+  box-shadow: 0 10px 20px rgba(245, 166, 201, 0.22);
+}
+
+.radio-group input[type="radio"] {
+  display: none;
+}
+
+.radio-group span {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 4px;
+  color: #d85c96;
+}
+
+.radio-group small {
+  font-size: 13px;
+  color: rgba(35, 22, 31, 0.7);
+}
+
+.submit-button {
+  align-self: center;
+  padding: 16px 28px;
+  border-radius: 99px; /* Assuming from var(--radius-pill) */
+  border: none;
+  background: #f5a6c9; /* var(--coquette-rose) */
+  color: #fff; /* var(--coquette-white) */
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 24px 36px rgba(245, 166, 201, 0.32);
+  margin-top: 1rem;
+}
+
+.submit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 28px 42px rgba(245, 166, 201, 0.38);
+}
+
+.error-message {
+  background-color: rgba(244, 67, 54, 0.1);
+  color: #b71c1c;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* Role Selection Styles */
+.role-selection-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 32px;
+  text-align: center;
+}
+
+.role-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 40px;
+}
+
+.role-card {
+  padding: 32px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16px;
+  border: 1px solid rgba(58, 39, 53, 0.1);
+  box-shadow: 0 40px 52px rgba(245, 166, 201, 0.24);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.role-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 45px 60px rgba(245, 166, 201, 0.3);
+  border-color: #f5a6c9;
+}
+
+.role-card h3 {
+  font-size: 1.75rem;
+  margin: 0;
+  color: #d85c96;
+}
+
+.role-card p {
+  color: rgba(35, 22, 31, 0.7);
+  flex-grow: 1;
+  margin: 0;
+}
+
+.role-button {
+  background: #f5a6c9;
+  color: #fff;
+  box-shadow: 0 18px 30px rgba(245, 166, 201, 0.35);
+  padding: 14px 28px;
+  border-radius: 99px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-size: 15px;
+  cursor: pointer;
+  border: none;
+  text-transform: uppercase;
+  transition: all 0.2s ease-in-out;
+  margin-top: auto;
+}
+
+.role-button:hover {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 700px) {
+  .role-options {
+    grid-template-columns: 1fr;
+  }
+}

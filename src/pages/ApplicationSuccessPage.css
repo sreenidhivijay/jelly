@@ -1,0 +1,62 @@
+.application-success-page {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px 80px;
+}
+
+.application-success-card {
+  max-width: 640px;
+  width: 100%;
+  background: #fff;
+  border-radius: 36px;
+  border: 1px solid rgba(26, 12, 21, 0.08);
+  box-shadow: 0 50px 70px rgba(26, 12, 21, 0.12);
+  padding: clamp(32px, 5vw, 56px);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.application-success-card h1 {
+  margin: 0;
+  font-size: clamp(28px, 5vw, 42px);
+}
+
+.application-success-card p {
+  margin: 0 auto;
+  font-size: 18px;
+  color: rgba(26, 12, 21, 0.7);
+  line-height: 1.7;
+  max-width: 520px;
+}
+
+.success-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.application-success-card .start-button {
+  padding: 14px 32px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: #1c0f19;
+  color: #fff;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.application-success-card .outline-button {
+  padding: 14px 32px;
+  border-radius: var(--radius-pill);
+  border: 1px dashed rgba(26, 12, 21, 0.25);
+  background: transparent;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+}

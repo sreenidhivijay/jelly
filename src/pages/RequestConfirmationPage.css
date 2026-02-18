@@ -1,0 +1,66 @@
+.request-confirmation {
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px 120px;
+}
+
+.confirmation-card {
+  max-width: 520px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(58, 39, 53, 0.1);
+  box-shadow: 0 36px 52px rgba(245, 166, 201, 0.24);
+  padding: 36px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  text-align: center;
+}
+
+.confirmation-card h2 {
+  margin: 0;
+  font-size: clamp(26px, 3vw, 34px);
+}
+
+.confirmation-card p {
+  margin: 0;
+  color: rgba(35, 22, 31, 0.7);
+  line-height: 1.7;
+}
+
+.confirmation-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.confirmation-actions button {
+  padding: 12px 22px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--coquette-rose);
+  color: var(--coquette-white);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: var(--transition-base);
+  box-shadow: 0 18px 28px rgba(245, 166, 201, 0.3);
+}
+
+.confirmation-actions button:last-child {
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--coquette-soft-black);
+  border: 1px solid rgba(58, 39, 53, 0.16);
+  box-shadow: none;
+}
+
+.confirmation-actions button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 36px rgba(245, 166, 201, 0.34);
+}
+
+.confirmation-actions button:last-child:hover {
+  background: rgba(255, 216, 233, 0.35);
+}

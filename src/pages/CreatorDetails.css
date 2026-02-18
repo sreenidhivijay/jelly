@@ -1,0 +1,85 @@
+.creator-details-card {
+  max-width: 540px;
+  margin: 60px auto 120px;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(58, 39, 53, 0.1);
+  box-shadow: 0 36px 52px rgba(245, 166, 201, 0.24);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.creator-details-card img {
+  width: 120px;
+  height: 120px;
+  border-radius: 32px;
+  object-fit: cover;
+  border: 3px solid rgba(245, 166, 201, 0.55);
+  box-shadow: 0 18px 26px rgba(35, 22, 31, 0.12);
+  align-self: center;
+}
+
+.creator-details-card h2 {
+  margin: 0;
+  font-size: 26px;
+}
+
+.creator-vibe {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(35, 22, 31, 0.62);
+}
+
+.creator-specialties {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.creator-details-card .chip {
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 216, 233, 0.45);
+  border: 1px solid rgba(58, 39, 53, 0.12);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--coquette-soft-black);
+}
+
+.creator-details-card p {
+  margin: 0;
+  color: rgba(35, 22, 31, 0.75);
+  line-height: 1.7;
+}
+
+.creator-details-card button {
+  align-self: center;
+  padding: 12px 24px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--coquette-rose);
+  color: var(--coquette-white);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: var(--transition-base);
+  box-shadow: 0 20px 30px rgba(245, 166, 201, 0.3);
+}
+
+.creator-details-card button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 26px 38px rgba(245, 166, 201, 0.35);
+}
+
+.creator-missing {
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(35, 22, 31, 0.7);
+}

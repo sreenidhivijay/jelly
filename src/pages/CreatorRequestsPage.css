@@ -1,0 +1,94 @@
+.collab-requests-page {
+  max-width: 800px;
+  margin: 40px auto 120px;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.requests-header {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.requests-header h2 {
+  margin: 8px 0 12px;
+  font-size: 28px;
+}
+
+.requests-header p {
+  color: rgba(35, 22, 31, 0.66);
+}
+
+.request-card {
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid rgba(35, 22, 31, 0.08);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 12px 24px rgba(35, 22, 31, 0.04);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: rgba(35, 22, 31, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.card-body h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+
+.card-body p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: rgba(35, 22, 31, 0.75);
+}
+
+.card-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.card-actions button {
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  cursor: pointer;
+  transition: var(--transition-base);
+  border: none;
+}
+
+.card-actions .accept {
+  background: var(--coquette-rose);
+  color: #fff;
+}
+
+.card-actions .decline {
+  background: rgba(35, 22, 31, 0.06);
+  color: rgba(35, 22, 31, 0.7);
+}
+
+.card-actions .reschedule {
+  background: transparent;
+  border: 1px solid rgba(35, 22, 31, 0.15);
+  color: rgba(35, 22, 31, 0.7);
+}
+
+.card-actions button:hover {
+  transform: translateY(-1px);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px;
+  color: rgba(35, 22, 31, 0.6);
+}

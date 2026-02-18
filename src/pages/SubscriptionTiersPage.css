@@ -1,0 +1,87 @@
+.subscription-tiers-page {
+  padding: 4rem 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.onboarding-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.onboarding-header .eyebrow {
+  text-transform: uppercase;
+  color: #888;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.onboarding-header h2 {
+  font-size: 2.5rem;
+  margin: 0.5rem 0;
+}
+
+.tiers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.tier-card {
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.tier-card h3 {
+  font-size: 1.5rem;
+}
+
+.tier-price {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 1rem 0;
+}
+
+.tier-content-amount {
+    display: block;
+    margin: 1rem 0;
+    font-weight: bold;
+}
+
+.tier-card ul {
+  list-style: '✶ ';
+  padding-left: 1.5rem;
+  flex-grow: 1;
+}
+
+.tier-card li {
+  margin-bottom: 0.5rem;
+}
+
+.custom-tier {
+}
+
+.slider-group {
+  margin: 1rem 0;
+}
+
+.slider-group input[type="range"] {
+  width: 100%;
+}
+
+.custom-price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 2rem 0;
+  text-align: center;
+}
+
+@media (max-width: 1200px) {
+  .tiers-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}

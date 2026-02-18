@@ -1,0 +1,271 @@
+.saved-creators-page {
+  padding: 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 40px;
+}
+
+.header-eyebrow {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: #666;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.page-header h2 {
+  margin: 0 0 12px 0;
+  font-size: 2.5rem;
+  color: #111;
+}
+
+.page-header p {
+  color: #666;
+  margin: 0;
+  font-size: 1.1rem;
+  max-width: 700px;
+}
+
+.project-tabs {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1px;
+}
+
+.project-tab {
+  background: none;
+  border: none;
+  padding: 12px 4px;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  text-align: left;
+  opacity: 0.5;
+  transition: all 0.2s;
+}
+
+.project-tab:hover {
+  opacity: 0.8;
+}
+
+.project-tab.active {
+  opacity: 1;
+  border-bottom-color: #000;
+}
+
+.project-tab span {
+  display: block;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+.project-tab small {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.project-brief {
+  background: #111;
+  color: white;
+  padding: 32px;
+  border-radius: 16px;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.project-brief h3 {
+  margin: 0 0 12px 0;
+  font-size: 1.5rem;
+}
+
+.project-brief p {
+  margin: 0;
+  opacity: 0.8;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+.brief-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  font-size: 0.9rem;
+  opacity: 0.7;
+  text-align: right;
+}
+
+.project-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.column-card {
+  background: #f5f5f7;
+  padding: 24px;
+  border-radius: 16px;
+}
+
+.column-header {
+  margin-bottom: 24px;
+}
+
+.column-header h4 {
+  margin: 0 0 6px 0;
+  font-size: 1.1rem;
+}
+
+.column-header small {
+  color: #666;
+}
+
+.creator-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: transform 0.2s;
+}
+
+.creator-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.profile-section {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.profile-image {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.creator-info h3 {
+  margin: 0 0 4px 0;
+  font-size: 1.2rem;
+}
+
+.creator-info p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.expertise-tag {
+  display: inline-block;
+  background: #f0f0f0;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  margin-right: 6px;
+  margin-top: 6px;
+  color: #555;
+}
+
+.availability {
+  font-size: 0.85rem !important;
+  color: #666 !important;
+  font-style: italic;
+}
+
+.status-pill {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-top: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-pill.neutral { background: #eee; color: #666; }
+.status-pill.pending { background: #fff8e1; color: #b76e00; }
+.status-pill.accepted { background: #e6f4ea; color: #1e8e3e; }
+
+.status-subtle {
+  display: block;
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.creator-actions {
+  display: flex;
+  gap: 12px;
+  border-top: 1px solid #eee;
+  padding-top: 16px;
+}
+
+.creator-actions button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.view-profile-button {
+  background: white;
+  border-color: #ddd !important;
+  color: #333;
+}
+
+.view-profile-button:hover {
+  border-color: #bbb !important;
+  background: #f9f9f9;
+}
+
+.outline-button {
+  background: white;
+  border-color: #000 !important;
+  color: #000;
+}
+
+.outline-button:hover {
+  background: #f5f5f5;
+}
+
+.outline-button.active-outline {
+  background: #000;
+  color: white;
+}
+
+.start-collab-button {
+  background: #000;
+  color: white;
+}
+
+.start-collab-button:hover {
+  background: #333;
+}
+
+.empty-state-card {
+  text-align: center;
+  padding: 48px 24px;
+  color: #888;
+  font-style: italic;
+  background: rgba(255,255,255,0.5);
+  border-radius: 12px;
+}
