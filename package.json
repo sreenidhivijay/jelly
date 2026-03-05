@@ -2,7 +2,7 @@
   "name": "jelly",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://CS465UIDesign.github.io/",
+  "homepage": "https://sreenidhivijay.github.io/jelly",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.0.0",
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
@@ -10,7 +10,6 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
- 
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.3.0",
@@ -45,7 +44,6 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^6.2.0"
+    "gh-pages": "^6.3.0"
   }
-  
 }

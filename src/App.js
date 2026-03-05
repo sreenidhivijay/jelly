@@ -45,6 +45,7 @@ import CreatorHowItWorksPage from './pages/CreatorHowItWorksPage';
 import CreatorCurationPage from './pages/CreatorCurationPage';
 import CreatorApprovalPage from './pages/CreatorApprovalPage';
 import CreatorDashboardPage from './pages/CreatorDashboardPage';
+import CompletedTasksPage from './pages/CompletedTasksPage';
 
 
 function App() {
@@ -77,6 +78,7 @@ function App() {
           <Route path="/signup/creator/curation" element={<CreatorCurationPage />} />
           <Route path="/signup/creator/approval" element={<CreatorApprovalPage />} />
           <Route path="/creator-dashboard" element={<CreatorDashboardPage />} />
+          <Route path="/creator-completed-tasks" element={<CompletedTasksPage />} />
 
           <Route path="/application-success" element={<ApplicationSuccessPage />} />
           <Route path="/signature-packages/:slug" element={<SignaturePackageProposalPage />} />

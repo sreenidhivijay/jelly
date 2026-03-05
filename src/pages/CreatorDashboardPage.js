@@ -1,15 +1,149 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './CreatorDashboardPage.css';
+import BusinessReferenceImages from '../components/BusinessReferenceImages';
+import CreatorUploads from '../components/CreatorUploads';
+import {
+  loadCompletedTasks,
+  loadUploadDrafts,
+  saveCompletedTasks,
+  saveUploadDrafts,
+} from '../utils/creatorTasksStorage';
 
 const initialPotentialTasks = [
-  { id: 1, sku: 'Reel', location: 'Remote', pay: '$150', deadline: '2 days', skills: 'Video Editing, Transitions', brand: 'Glow Cosmetics', description: 'Create a high-energy reel featuring our new summer palette. Focus on transitions and color popping.' },
-  { id: 2, sku: 'Carousel', location: 'On-site (NYC)', pay: '$300', deadline: '5 days', skills: 'Photography, Lighting', brand: 'Urban Eats', description: 'We need 5 high-res photos of our new brunch menu. Natural lighting, overhead shots.' },
-  { id: 3, sku: 'Story Set', location: 'Remote', pay: '$80', deadline: '24 hours', skills: 'Graphic Design', brand: 'TechNova', description: 'Design a set of 3 stories announcing our flash sale. Use our brand colors (blue/white).' },
+  {
+    id: 1,
+    sku: 'Reel',
+    location: 'Remote',
+    pay: '$150',
+    deadline: '2 days',
+    skills: 'Video Editing, Transitions',
+    brand: 'Glow Cosmetics',
+    description: 'Create a high-energy reel featuring our new summer palette. Focus on transitions and color popping.',
+    referenceImages: [
+      { id: 'glow-ref-1', url: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=900&q=80' },
+      { id: 'glow-ref-2', url: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80' },
+      { id: 'glow-ref-3', url: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=900&q=80' },
+    ],
+    deliverables: [
+      {
+        id: 'glow-del-1',
+        title: 'Hero Reel',
+        description: 'One 20-30s vertical reel with fast transitions and a final color-pop reveal.',
+        requiredType: 'video',
+      },
+      {
+        id: 'glow-del-2',
+        title: 'Cutdown Version',
+        description: 'One 8-12s cutdown optimized for paid social placement.',
+        requiredType: 'video',
+      },
+    ],
+  },
+  {
+    id: 2,
+    sku: 'Carousel',
+    location: 'On-site (NYC)',
+    pay: '$300',
+    deadline: '5 days',
+    skills: 'Photography, Lighting',
+    brand: 'Urban Eats',
+    description: 'We need 5 high-res photos of our new brunch menu. Natural lighting, overhead shots.',
+    referenceImages: [
+      { id: 'urban-ref-1', url: 'https://images.unsplash.com/photo-1494859802809-d069c3b71a8a?auto=format&fit=crop&w=900&q=80' },
+      { id: 'urban-ref-2', url: 'https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?auto=format&fit=crop&w=900&q=80' },
+    ],
+    deliverables: [
+      {
+        id: 'urban-del-1',
+        title: 'Brunch Carousel',
+        description: 'Five edited stills framed for a single Instagram carousel.',
+        requiredType: 'image',
+      },
+    ],
+  },
+  {
+    id: 3,
+    sku: 'Story Set',
+    location: 'Remote',
+    pay: '$80',
+    deadline: '24 hours',
+    skills: 'Graphic Design',
+    brand: 'TechNova',
+    description: 'Design a set of 3 stories announcing our flash sale. Use our brand colors (blue/white).',
+    referenceImages: [
+      { id: 'tech-ref-1', url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80' },
+    ],
+    deliverables: [
+      {
+        id: 'tech-del-1',
+        title: 'Story Card Set',
+        description: 'Three linked story cards with clear CTA and sale dates.',
+        requiredType: 'video',
+      },
+    ],
+  },
 ];
 
 const initialCurrentTasks = [
-  { id: 101, sku: 'Reel', brand: 'Luxe Apparel', status: 'In Progress', deadline: 'Tomorrow, 5 PM', location: 'Remote', pay: '$200', skills: 'Fashion Styling', description: 'Fashion haul reel. 3 outfits. Upbeat music.' },
-  { id: 102, sku: 'Post', brand: 'Bean & Brew', status: 'Pending Approval', deadline: 'Completed', location: 'On-site (SF)', pay: '$120', skills: 'Photography', description: 'Coffee shop vibe photo. Laptop and latte.' },
+  {
+    id: 101,
+    sku: 'Reel',
+    brand: 'Luxe Apparel',
+    status: 'In Progress',
+    deadline: 'Tomorrow, 5 PM',
+    location: 'Remote',
+    pay: '$200',
+    skills: 'Fashion Styling',
+    description: 'Fashion haul reel. 3 outfits. Upbeat music.',
+    referenceImages: [
+      { id: 'luxe-ref-1', url: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80' },
+      { id: 'luxe-ref-2', url: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=900&q=80' },
+    ],
+    deliverables: [
+      {
+        id: 'luxe-del-1',
+        title: 'Summer Outfit Reel',
+        description: 'One 30s reel featuring 3 transitions between complete outfit looks.',
+        requiredType: 'video',
+      },
+      {
+        id: 'luxe-del-2',
+        title: 'Thumbnail Cover',
+        description: 'One still image for cover art, centered composition and warm grade.',
+        requiredType: 'image',
+      },
+    ],
+  },
+  {
+    id: 102,
+    sku: 'Post',
+    brand: 'Bean & Brew',
+    status: 'In Progress',
+    deadline: '2 days',
+    location: 'On-site (SF)',
+    pay: '$120',
+    skills: 'Photography',
+    description: 'Coffee shop vibe photo. Laptop and latte.',
+    referenceImages: [
+      { id: 'bean-ref-1', url: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80' },
+      { id: 'bean-ref-2', url: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=900&q=80' },
+    ],
+    deliverables: [
+      {
+        id: 'bean-del-1',
+        title: 'Cafe Hero Post',
+        description: 'One high-resolution still image with laptop + latte styling.',
+        requiredType: 'image',
+      },
+      {
+        id: 'bean-del-2',
+        title: 'Counter B-Roll Story',
+        description: 'One short vertical story clip showing pour and ambience.',
+        requiredType: 'video',
+      },
+    ],
+  },
 ];
 
 function CreatorDashboardPage() {
@@ -20,6 +154,9 @@ function CreatorDashboardPage() {
   const [timeLeft, setTimeLeft] = useState(228010); // 2 days, 15h, 20m, 10s in seconds
   const [selectedTask, setSelectedTask] = useState(null);
   const [modalType, setModalType] = useState(null); // 'opportunity' or 'pending'
+  const [uploadedContentByTask, setUploadedContentByTask] = useState(() => loadUploadDrafts());
+  const [completedTasks, setCompletedTasks] = useState(() => loadCompletedTasks());
+  const [saveStateByTask, setSaveStateByTask] = useState({});
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -27,6 +164,14 @@ function CreatorDashboardPage() {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    saveCompletedTasks(completedTasks);
+  }, [completedTasks]);
+
+  useEffect(() => {
+    saveUploadDrafts(uploadedContentByTask);
+  }, [uploadedContentByTask]);
 
   const formatTime = (seconds) => {
     const d = Math.floor(seconds / (3600 * 24));
@@ -40,6 +185,79 @@ function CreatorDashboardPage() {
     setPotentialTasks(potentialTasks.filter(t => t.id !== task.id));
     setCurrentTasks([...currentTasks, { ...task, status: 'In Progress', deadline: task.deadline }]);
     closeModal();
+  };
+
+  const handleDeliverableUpload = (taskId, deliverableId, uploadedContent) => {
+    setUploadedContentByTask((prev) => {
+      const updatedUploads = {
+        ...prev,
+        [taskId]: {
+          ...(prev[taskId] || {}),
+          [deliverableId]: uploadedContent,
+        },
+      };
+      return updatedUploads;
+    });
+    setSaveStateByTask((prev) => ({
+      ...prev,
+      [taskId]: { type: '', message: '' },
+    }));
+  };
+
+  const handleSaveUploads = (taskId) => {
+    saveUploadDrafts(uploadedContentByTask);
+    setSaveStateByTask((prev) => ({
+      ...prev,
+      [taskId]: { type: 'success', message: 'Draft saved.' },
+    }));
+  };
+
+  const handleSubmitTask = (taskId) => {
+    const task = currentTasks.find((item) => item.id === taskId);
+    if (!task) {
+      return;
+    }
+
+    const deliverables = task.deliverables || [];
+    const uploads = uploadedContentByTask[taskId] || {};
+    const isTaskComplete =
+      deliverables.length > 0 &&
+      deliverables.every((deliverable) => Boolean(uploads[deliverable.id]?.url));
+
+    if (!isTaskComplete) {
+      setSaveStateByTask((prev) => ({
+        ...prev,
+        [taskId]: { type: 'error', message: 'Please upload all required deliverables before submitting.' },
+      }));
+      return;
+    }
+
+    setCurrentTasks((prevTasks) => prevTasks.filter((item) => item.id !== taskId));
+    setCompletedTasks((prevCompleted) => {
+      if (prevCompleted.some((item) => item.id === taskId)) {
+        return prevCompleted;
+      }
+      return [
+        {
+          ...task,
+          completedAt: new Date().toISOString(),
+          uploadedContent: uploads,
+        },
+        ...prevCompleted,
+      ];
+    });
+    setUploadedContentByTask((prev) => {
+      const next = { ...prev };
+      delete next[taskId];
+      return next;
+    });
+    setSaveStateByTask((prev) => ({
+      ...prev,
+      [taskId]: { type: 'success', message: 'Submitted successfully.' },
+    }));
+    if (selectedTask?.id === taskId) {
+      closeModal();
+    }
   };
 
   const handleDecline = (id) => {
@@ -57,12 +275,19 @@ function CreatorDashboardPage() {
     setModalType(null);
   };
 
+  const isAcceptedTask = (task) => task && task.status === 'In Progress';
+
   return (
     <div className="creator-dashboard">
       <div className="dashboard-main">
         <header>
           <h1 style={{ fontSize: '32px', marginBottom: '8px' }}>Welcome back, Creator</h1>
           <p style={{ color: '#666' }}>Here is what's happening with your content.</p>
+          <div style={{ marginTop: '14px' }}>
+            <Link className="view-completed-link" to="/creator-completed-tasks">
+              View Old & Completed Tasks ({completedTasks.length})
+            </Link>
+          </div>
         </header>
 
         <div className="stats-row">
@@ -175,6 +400,25 @@ function CreatorDashboardPage() {
               <strong>Job Description:</strong>
               <p style={{ marginTop: '4px' }}>{selectedTask.description || 'No additional details provided.'}</p>
             </div>
+
+            {isAcceptedTask(selectedTask) && (
+              <div className="accepted-task-sections">
+                <BusinessReferenceImages
+                  images={selectedTask.referenceImages}
+                  brandName={selectedTask.brand}
+                />
+                <CreatorUploads
+                  deliverables={selectedTask.deliverables}
+                  taskId={selectedTask.id}
+                  taskSku={selectedTask.sku}
+                  uploadedContent={uploadedContentByTask[selectedTask.id]}
+                  onUpload={handleDeliverableUpload}
+                  onSave={handleSaveUploads}
+                  onSubmit={handleSubmitTask}
+                  saveState={saveStateByTask[selectedTask.id]}
+                />
+              </div>
+            )}
 
             {modalType === 'opportunity' && (
               <div className="modal-actions">
