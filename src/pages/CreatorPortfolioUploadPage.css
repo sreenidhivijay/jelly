@@ -1,0 +1,71 @@
+.portfolio-upload-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.portfolio-upload-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #e0e0e0;
+  border-radius: 12px;
+  padding: 44px 20px;
+  cursor: pointer;
+  background: #fafafa;
+  transition: all 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 220px;
+}
+
+.portfolio-upload-box:hover {
+  border-color: #000;
+  background: #f5f5f5;
+}
+
+.portfolio-upload-meta {
+  display: flex;
+  justify-content: center;
+  color: #111;
+}
+
+.portfolio-upload-message {
+  margin: 0;
+  text-align: center;
+  color: #7a4a00;
+  font-size: 14px;
+}
+
+.portfolio-upload-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 12px;
+  max-height: 280px;
+  overflow: auto;
+}
+
+.portfolio-upload-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+}
+
+.portfolio-upload-list li:last-child {
+  border-bottom: none;
+}
+
+.portfolio-upload-list button {
+  border: 1px solid rgba(17, 17, 17, 0.25);
+  background: #fff;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}

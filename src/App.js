@@ -44,6 +44,8 @@ import CreatorNichePage from './pages/CreatorNichePage';
 import CreatorHowItWorksPage from './pages/CreatorHowItWorksPage';
 import CreatorCurationPage from './pages/CreatorCurationPage';
 import CreatorApprovalPage from './pages/CreatorApprovalPage';
+import CreatorPortfolioUploadPage from './pages/CreatorPortfolioUploadPage';
+import CreatorApprovedPage from './pages/CreatorApprovedPage';
 import CreatorDashboardPage from './pages/CreatorDashboardPage';
 import CompletedTasksPage from './pages/CompletedTasksPage';
 
@@ -76,7 +78,9 @@ function App() {
           <Route path="/signup/creator/niche" element={<CreatorNichePage />} />
           <Route path="/signup/creator/how-it-works" element={<CreatorHowItWorksPage />} />
           <Route path="/signup/creator/curation" element={<CreatorCurationPage />} />
+          <Route path="/signup/creator/portfolio" element={<CreatorPortfolioUploadPage />} />
           <Route path="/signup/creator/approval" element={<CreatorApprovalPage />} />
+          <Route path="/signup/creator/approved" element={<CreatorApprovedPage />} />
           <Route path="/creator-dashboard" element={<CreatorDashboardPage />} />
           <Route path="/creator-completed-tasks" element={<CompletedTasksPage />} />
 

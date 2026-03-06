@@ -17,7 +17,7 @@ function CreatorCurationPage() {
       return;
     }
     // In a real app, upload logic goes here
-    navigate('/signup/creator/approval');
+    navigate('/signup/creator/portfolio', { state: { niche } });
   };
 
   const getPrompt = (niche) => {
