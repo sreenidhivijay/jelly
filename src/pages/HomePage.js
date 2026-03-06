@@ -4,45 +4,45 @@ import { Link } from 'react-router-dom';
 import './HomePage.css';
 
 const heroStats = [
-  { label: 'Signature drops', value: '24', detail: 'live this season' },
-  { label: 'Creator looks', value: '8.2k', detail: 'curated profiles' },
-  { label: 'Sell-outs', value: '93%', detail: 'per launch' },
+  { label: 'Active partnerships', value: '240+', detail: 'running each month' },
+  { label: 'Creator opportunities', value: '8.2k', detail: 'briefs shared this year' },
+  { label: 'On-time delivery', value: '93%', detail: 'content submitted as planned' },
 ];
 
 const studioHighlights = [
   {
-    title: 'Creator Lab Capsule',
-    subtitle: 'Drop 01 · Mixed media stories',
+    title: 'Weekly Content Retainers',
+    subtitle: 'Predictable briefs and recurring payouts',
     image:
-      'https://jnkversestore.com/cdn/shop/files/unnamed_29_1c4ef2b7-f571-4bf9-b1a1-6738cd18c665_800x.png?v=1763108309',
-    tag: 'Featured',
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1200&q=80',
+    tag: 'Steady work',
   },
   {
-    title: 'Midnight Social Set',
-    subtitle: 'Drop 02 · Afterhours scenes',
-    image: 'https://jnkversestore.com/cdn/shop/files/unnamed_30_1_800x.png?v=1763108112',
-    tag: 'Limited',
+    title: 'Creator-Business Matching',
+    subtitle: 'Aligned goals, style, and posting cadence',
+    image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80',
+    tag: 'Better fit',
   },
   {
-    title: 'Gallery Essentials',
-    subtitle: 'Drop 03 · Studio-ready assets',
-    image: 'https://jnkversestore.com/cdn/shop/files/image_15_800x.png?v=1762492277',
-    tag: 'New',
+    title: 'Always-On Content Pipeline',
+    subtitle: 'Fresh deliverables for every campaign phase',
+    image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80',
+    tag: 'Consistent output',
   },
 ];
 
 const paletteNotes = [
   {
-    label: 'Palette',
-    description: 'Blush, pearl, inky black',
+    label: 'For creators',
+    description: 'Clear scope, recurring work, and predictable pay cycles',
   },
   {
-    label: 'Creators',
-    description: 'Luxe lifestyle, pastel foodies',
+    label: 'For businesses',
+    description: 'Reliable publishing flow and brand-safe creator partners',
   },
   {
     label: 'Deliverables',
-    description: '3 reels · 2 carousels · 1 story stack',
+    description: 'Short-form video, social posts, and campaign-ready assets',
   },
 ];
 
@@ -52,24 +52,24 @@ function HomePage() {
       <section className="hero-banner">
         <div className="hero-media">
           <img
-            src="https://jnkversestore.com/cdn/shop/files/image_15_1920x.png?v=1762492277"
-            alt="Jelly hero drop"
+            src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1800&q=80"
+            alt="Creators and business team planning content"
           />
           <div className="hero-media__overlay" />
         </div>
         <div className="hero-copy">
           <p className="eyebrow">jelly</p>
-          <h1>You can’t follow what doesn’t lead</h1>
+          <h1>Steady work for creators. Steady content for businesses.</h1>
           <p className="hero-copy__body">
-            Future-forward silhouettes meet curated creators. Every drop blends campaign strategy, stylized media,
-            and ready-to-shop looks your community saves instantly.
+            Jelly connects businesses with creators who can deliver consistently. Creators get repeat opportunities,
+            and businesses get a dependable stream of quality content they can publish every week.
           </p>
           <div className="hero-actions">
             <Link to="/signup" className="button primary">
-              Start matching
+              Start collaborating
             </Link>
             <Link to="/search" className="button secondary">
-              Preview creators
+              Find creators
             </Link>
           </div>
           <div className="hero-stat-grid">
@@ -86,11 +86,11 @@ function HomePage() {
 
       <section className="moodboard-callout">
         <div className="moodboard-copy">
-          <p className="eyebrow">Moodboard of the week</p>
-          <h2>Midnight High Tea Drop</h2>
+          <p className="eyebrow">How Jelly helps</p>
+          <h2>Build a repeatable content engine</h2>
           <p>
-            Built for neon lounges and rooftop brunches alike. Fluid tailoring hugs the moment while pastel trims
-            keep it unapologetically brat.
+            Instead of one-off collaborations, Jelly supports ongoing partnerships so creators can plan their income
+            and businesses can plan their publishing calendar with confidence.
           </p>
           <div className="moodboard-notes">
             {paletteNotes.map((note) => (
@@ -103,26 +103,26 @@ function HomePage() {
         </div>
         <div className="moodboard-card">
           <div className="moodboard-card__body">
-            <span>Spots remaining</span>
-            <strong>4 creator shoots</strong>
+            <span>Open this week</span>
+            <strong>New creator-business matches</strong>
           </div>
           <Link
             to="/login"
-            state={{ redirectTo: '/campaigns/midnight-high-tea' }}
+            state={{ redirectTo: '/search' }}
             className="button tertiary"
           >
-            Request shortlist
+            Request matches
           </Link>
         </div>
       </section>
 
       <section className="runway-grid">
         <div className="section-intro">
-          <p className="eyebrow">Featured looks</p>
-          <h3>Pick your brat era</h3>
+          <p className="eyebrow">What you get</p>
+          <h3>Consistency without the chaos</h3>
           <p>
-            Every piece drops with a styling guide, backstage clips, and collaborative creator kits so campaigns stay
-            cohesive across channels.
+            Jelly helps both sides stay consistent with better matching, clearer deliverables, and timelines that keep
+            campaigns moving.
           </p>
         </div>
         <div className="product-grid">
@@ -134,7 +134,7 @@ function HomePage() {
                 <span>{item.subtitle}</span>
                 <h4>{item.title}</h4>
                 <Link to="/search" className="button ghost">
-                  Explore looks
+                  Learn more
                 </Link>
               </div>
             </article>
@@ -144,9 +144,9 @@ function HomePage() {
 
       <section className="newsletter-panel">
         <div className="section-intro">
-          <p className="eyebrow">Stay in the loop</p>
-          <h3>New drops, backstage invites, and call sheets.</h3>
-          <p>Sign up for the studio memo and be the first to know when campaigns open for collaborators.</p>
+          <p className="eyebrow">Get updates</p>
+          <h3>New opportunities for creators and new campaign openings for businesses.</h3>
+          <p>Join the Jelly list to hear when fresh partnerships open up.</p>
         </div>
         <form className="newsletter-form">
           <label htmlFor="newsletter-email" className="visually-hidden">
@@ -155,7 +155,7 @@ function HomePage() {
           <div className="newsletter-form__field">
             <input id="newsletter-email" type="email" name="email" placeholder="Enter your email" />
             <button type="submit" className="button primary">
-              Be the first to know
+              Get updates
             </button>
           </div>
         </form>

@@ -5,9 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import './Header.css';
 
-const LOGO_URL =
-  'https://jnkversestore.com/cdn/shop/files/jnkverse-white.png?v=1743662118&width=200';
-
 function Header() {
   const { user, setUser } = useUser();
   const navigate = useNavigate();
@@ -38,7 +35,7 @@ function Header() {
         <ul className="nav-list">
           <li className="nav-item">
             <Link to="/" className="brand-mark" onClick={closeMobileMenu}>
-              <img src={LOGO_URL} alt="Jnkverse logo" className="nav-logo" />
+              <span className="brand-text">JELLY</span>
             </Link>
           </li>
           {user.isLoggedIn && user.role === "creator" && (
