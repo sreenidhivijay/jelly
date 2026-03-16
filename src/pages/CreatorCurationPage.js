@@ -3,21 +3,31 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './BrandRegistration.css';
 import './CreatorCurationPage.css';
 import { FiUploadCloud } from "react-icons/fi";
+import uploadService from '../services/uploadService';
 
 function CreatorCurationPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const { niche } = location.state || { niche: 'General' };
   const [file, setFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
-  const handleContinue = (event) => {
+  const handleContinue = async (event) => {
     event.preventDefault();
     if (!file) {
       alert("Please upload a video to continue.");
       return;
     }
-    // In a real app, upload logic goes here
-    navigate('/signup/creator/portfolio', { state: { niche } });
+
+    try {
+      setUploading(true);
+      await uploadService.uploadFile(file);
+      navigate('/signup/creator/portfolio', { state: { niche } });
+    } catch (error) {
+      alert(error.message || "Upload failed. Please try again.");
+    } finally {
+      setUploading(false);
+    }
   };
 
   const getPrompt = (niche) => {
@@ -62,8 +72,8 @@ function CreatorCurationPage() {
           </label>
         </section>
 
-        <button type="submit" className="continue-button">
-          Submit for Review
+        <button type="submit" className="continue-button" disabled={uploading}>
+          {uploading ? 'Uploading…' : 'Submit for Review'}
         </button>
       </form>
     </div>

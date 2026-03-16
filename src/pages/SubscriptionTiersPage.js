@@ -1,28 +1,48 @@
-import React, { useState, useMemo } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import './SubscriptionTiersPage.css';
+import React, { useState, useMemo } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import "./SubscriptionTiersPage.css";
+import subscriptionService from "../services/subscriptionService";
 
 const tiers = [
   {
-    name: 'Basic',
-    price: '$499',
-    description: 'Perfect for getting started and building momentum.',
-    content: '16 pieces of content per month',
-    features: ['First piece of content in 48 hours', '1 Reel', '2 Posts', '3 Stories (set package)'],
+    name: "Basic",
+    value: "basic",
+    price: "$499",
+    description: "Perfect for getting started and building momentum.",
+    content: "16 pieces of content per month",
+    features: [
+      "First piece of content in 48 hours",
+      "1 Reel",
+      "2 Posts",
+      "3 Stories (set package)",
+    ],
   },
   {
-    name: 'Mid',
-    price: '$999',
-    description: 'Ideal for growing businesses looking to scale their presence.',
-    content: '32 pieces of content per month',
-    features: ['First piece of content in 48 hours', '4 Reels', '8 Posts', '12 Stories (set package)'],
+    name: "Mid",
+    value: "mid",
+    price: "$999",
+    description:
+      "Ideal for growing businesses looking to scale their presence.",
+    content: "32 pieces of content per month",
+    features: [
+      "First piece of content in 48 hours",
+      "4 Reels",
+      "8 Posts",
+      "12 Stories (set package)",
+    ],
   },
   {
-    name: 'Pro',
-    price: '$1999',
-    description: 'For established brands aiming for market leadership.',
-    content: '60 pieces of content per month',
-    features: ['First piece of content in 48 hours', '10 Reels', '15 Posts', '20 Stories (set package)'],
+    name: "Pro",
+    value: "pro",
+    price: "$1999",
+    description: "For established brands aiming for market leadership.",
+    content: "60 pieces of content per month",
+    features: [
+      "First piece of content in 48 hours",
+      "10 Reels",
+      "15 Posts",
+      "20 Stories (set package)",
+    ],
   },
 ];
 
@@ -37,12 +57,15 @@ function SubscriptionTiersPage() {
     if (!selections || !selections[type]) {
       return 0;
     }
-    return Object.values(selections[type]).reduce((sum, count) => sum + count, 0);
+    return Object.values(selections[type]).reduce(
+      (sum, count) => sum + count,
+      0,
+    );
   };
 
-  const [reels, setReels] = useState(() => getInitialCount('Reel'));
-  const [posts, setPosts] = useState(() => getInitialCount('Post'));
-  const [stories, setStories] = useState(() => getInitialCount('Story'));
+  const [reels, setReels] = useState(() => getInitialCount("Reel"));
+  const [posts, setPosts] = useState(() => getInitialCount("Post"));
+  const [stories, setStories] = useState(() => getInitialCount("Story"));
 
   const customPrice = useMemo(() => {
     // Updated pricing logic to match Mid ($999) and Pro ($1999) tiers
@@ -51,13 +74,29 @@ function SubscriptionTiersPage() {
     return Math.max(0, price);
   }, [reels, posts, stories]);
 
-  const handleSelectTier = (tierName) => {
-    const selectedTier = tiers.find(t => t.name === tierName) || { 
-      name: 'Customized', 
-      price: `$${customPrice}`,
-      customCounts: { Reel: reels, Post: posts, Story: stories }
-    };
-    navigate('/signup/business/success', { state: { tier: selectedTier } });
+  const [loading, setLoading] = useState(false);
+
+  const handleSelectTier = async (tierValue) => {
+    const customCounts =
+      tierValue === "custom"
+        ? { Reel: reels, Post: posts, Story: stories }
+        : null;
+
+    try {
+      setLoading(true);
+      await subscriptionService.subscribe(tierValue, customCounts);
+      const selectedTier = tiers.find((t) => t.value === tierValue) || {
+        name: "Customized",
+        value: "custom",
+        price: `$${customPrice}`,
+        customCounts,
+      };
+      navigate("/signup/business/success", { state: { tier: selectedTier } });
+    } catch (error) {
+      alert(error.message || "Failed to subscribe. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -72,7 +111,7 @@ function SubscriptionTiersPage() {
         <div className="tier-card custom-tier highlighted">
           <h3>Customized</h3>
           <p>Build a plan that's perfectly tailored to your goals.</p>
-          
+
           <div className="slider-group">
             <label>Reels per month: {reels}</label>
             <input
@@ -110,7 +149,13 @@ function SubscriptionTiersPage() {
             Your price: <span>${customPrice}/mo</span>
           </div>
 
-          <button className="continue-button" onClick={() => handleSelectTier('Customized')}>Select Custom</button>
+          <button
+            className="continue-button"
+            disabled={loading}
+            onClick={() => handleSelectTier("custom")}
+          >
+            {loading ? "Subscribing…" : "Select Custom"}
+          </button>
         </div>
 
         {tiers.map((tier) => (
@@ -124,7 +169,13 @@ function SubscriptionTiersPage() {
                 <li key={feature}>{feature}</li>
               ))}
             </ul>
-            <button className="continue-button" onClick={() => handleSelectTier(tier.name)}>Select {tier.name}</button>
+            <button
+              className="continue-button"
+              disabled={loading}
+              onClick={() => handleSelectTier(tier.value)}
+            >
+              {loading ? "Subscribing…" : `Select ${tier.name}`}
+            </button>
           </div>
         ))}
       </div>

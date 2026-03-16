@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../components/UserContext"; // Import the UserContext
+import { useUser } from "../components/UserContext";
+import authService from "../services/authService";
 import "./SignUpPage.css";
 
 // New component for the initial role selection
@@ -36,8 +37,9 @@ function SignUpPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState(""); // This now controls the view
-  const [errorMessage, setErrorMessage] = useState(""); // State for error messages
-  const { setUser } = useUser(); // Access setUser from UserContext
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { setUser } = useUser();
   const navigate = useNavigate();
 
   const passwordRequirements = [
@@ -48,42 +50,44 @@ function SignUpPage() {
     { label: "Passwords match", isValid: password === confirmPassword && password.length > 0 },
   ];
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if all requirements are satisfied
     if (passwordRequirements.some((req) => !req.isValid)) {
       setErrorMessage("Please meet all password requirements.");
       return;
     }
 
-    // Clear error message if all validations pass
     setErrorMessage("");
+    setIsLoading(true);
 
-    setUser({
-      isLoggedIn: true,
-      role: role,
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-    });
+    try {
+      const data = await authService.signup({
+        firstName,
+        lastName,
+        email,
+        password,
+        role: role === "business" ? "brand" : role,
+      });
 
-    // Redirect based on the role
-    if (role === "brand" || role === "business") {
-      navigate("/signup/business/how-it-works");
-    } else if (role === "creator") {
-      navigate("/signup/creator/niche");
-    } else {
-      setErrorMessage("An unexpected error occurred.");
+      setUser({
+        isLoggedIn: true,
+        role: data.user.role,
+        firstName: data.user.firstName,
+        lastName: data.user.lastName,
+        email: data.user.email,
+      });
+
+      if (role === "brand" || role === "business") {
+        navigate("/signup/business/how-it-works");
+      } else if (role === "creator") {
+        navigate("/signup/creator/niche");
+      }
+    } catch (error) {
+      setErrorMessage(error.message || "Sign up failed. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
-
-    console.log("Sign up details:", {
-      firstName,
-      lastName,
-      email,
-      password,
-      role,
-    });
   };
 
   // If no role is selected, show the role selection screen
@@ -166,8 +170,8 @@ function SignUpPage() {
               required
             />
           </div>
-          <button type="submit" className="submit-button">
-            Create account
+          <button type="submit" className="submit-button" disabled={isLoading}>
+            {isLoading ? "Creating account..." : "Create account"}
           </button>
         </form>
       </div>

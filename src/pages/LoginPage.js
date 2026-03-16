@@ -1,45 +1,42 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUser } from "../components/UserContext";
+import authService from "../services/authService";
 import "./LoginPage.css";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const { setUser } = useUser();
   const redirectTo = location.state?.redirectTo;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
+    setIsLoading(true);
 
-    if (email === "creator@demo.com" && password === "password123!") {
+    try {
+      const data = await authService.login(email, password);
+
       setUser({
         isLoggedIn: true,
-        role: "creator",
-        firstName: "Aurora",
-        lastName: "Blake",
-        email,
+        role: data.user.role,
+        firstName: data.user.firstName,
+        lastName: data.user.lastName,
+        email: data.user.email,
       });
-      navigate(redirectTo || "/creator-dashboard");
-      return;
-    }
 
-    if (email === "brand@demo.com" && password === "password123!") {
-      setUser({
-        isLoggedIn: true,
-        role: "brand",
-        firstName: "Maison",
-        lastName: "Noir",
-        email,
-      });
-      navigate(redirectTo || "/your-creators");
-      return;
+      const defaultRoute = data.user.role === "creator" ? "/creator-dashboard" : "/your-creators";
+      navigate(redirectTo || defaultRoute);
+    } catch (error) {
+      setErrorMessage(error.message || "Invalid email or password.");
+    } finally {
+      setIsLoading(false);
     }
-
-    setErrorMessage("Use creator@demo.com or brand@demo.com with password123!");
   };
 
   return (
@@ -78,8 +75,8 @@ function LoginPage() {
             />
           </div>
 
-          <button type="submit" className="login-button">
-            Sign in
+          <button type="submit" className="login-button" disabled={isLoading}>
+            {isLoading ? "Signing in..." : "Sign in"}
           </button>
         </form>
 

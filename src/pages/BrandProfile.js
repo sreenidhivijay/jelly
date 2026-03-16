@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './BrandProfile.css';
 import profilePic from '../assets/profile-pic.jpg';
-import { BRAND_PROFILE_PHOTO_KEY, BRAND_BIO_KEY } from '../utils/storageKeys';
+// import { BRAND_PROFILE_PHOTO_KEY, BRAND_BIO_KEY } from '../utils/storageKeys';
 import BrandBriefSection from '../components/BrandBriefSection';
+import brandService from '../services/brandService';
 
 const brandSummary = {
   name: 'Velvet Petal Boutique',
@@ -47,34 +48,69 @@ function BrandProfile() {
   const [profileImage, setProfileImage] = useState(profilePic);
   const fileInputRef = useRef(null);
 
+  // useEffect(() => {
+  //   const storedBio = localStorage.getItem(BRAND_BIO_KEY);
+  //   if (storedBio) {
+  //     setBio(storedBio);
+  //   }
+  //   const storedPhoto = localStorage.getItem(BRAND_PROFILE_PHOTO_KEY);
+  //   if (storedPhoto) {
+  //     setProfileImage(storedPhoto);
+  //   }
+  // }, []);
+
   useEffect(() => {
-    const storedBio = localStorage.getItem(BRAND_BIO_KEY);
-    if (storedBio) {
-      setBio(storedBio);
-    }
-    const storedPhoto = localStorage.getItem(BRAND_PROFILE_PHOTO_KEY);
-    if (storedPhoto) {
-      setProfileImage(storedPhoto);
-    }
-  }, []);
-
-  const handleBioChange = (event) => {
-    const value = event.target.value;
-    setBio(value);
-    localStorage.setItem(BRAND_BIO_KEY, value);
-  };
-
-  const handlePhotoUpload = (event) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      if (typeof reader.result === 'string') {
-        setProfileImage(reader.result);
-        localStorage.setItem(BRAND_PROFILE_PHOTO_KEY, reader.result);
+    const fetchProfile = async () => {
+      try {
+        const data = await brandService.getProfile();
+        if (data.bio) setBio(data.bio);
+        if (data.profile_photo_url) setProfileImage(data.profile_photo_url);
+      } catch (error) {
+        console.error('Failed to load profile:', error);
       }
     };
-    reader.readAsDataURL(file);
+    fetchProfile();
+  }, []);
+
+  // const handleBioChange = (event) => {
+  //   const value = event.target.value;
+  //   setBio(value);
+  //   localStorage.setItem(BRAND_BIO_KEY, value);
+  // };
+
+  // const handlePhotoUpload = (event) => {
+  //   const file = event.target.files?.[0];
+  //   if (!file) return;
+  //   const reader = new FileReader();
+  //   reader.onloadend = () => {
+  //     if (typeof reader.result === 'string') {
+  //       setProfileImage(reader.result);
+  //       localStorage.setItem(BRAND_PROFILE_PHOTO_KEY, reader.result);
+  //     }
+  //   };
+  //   reader.readAsDataURL(file);
+  //   event.target.value = '';
+  // };
+
+  const handleBioChange = async (event) => {
+    const value = event.target.value;
+    setBio(value);
+    try {
+      await brandService.updateProfile({ bio: value });
+    } catch (error) {
+      console.error('Failed to save bio:', error);
+    }
+  };
+
+  const handlePhotoUpload = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    try {
+      const fileUrl = await brandService.uploadProfilePhoto(file);
+      setProfileImage(fileUrl);
+    } catch (error) {
+      console.error('Failed to upload photo:', error);
+    }
     event.target.value = '';
   };
 
