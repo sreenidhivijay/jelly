@@ -9,7 +9,7 @@ function HowItWorksPage() {
 
   const handleContinue = (event) => {
     event.preventDefault();
-    navigate('/signup/business/subscription-tiers', { state: onboardingState });
+    navigate('/signup/business/content-sku', { state: onboardingState });
   };
 
   return (
@@ -44,7 +44,7 @@ function HowItWorksPage() {
         </div>
       </div>
 
-      <button onClick={handleContinue} className="continue-button">See Subscription Tiers</button>
+      <button onClick={handleContinue} className="continue-button">Continue</button>
     </div>
   );
 }

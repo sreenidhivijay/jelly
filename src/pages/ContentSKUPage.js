@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './BrandRegistration.css'; // Reusing styles
 import './ContentSKUPage.css';
+import exampleVideo from '../assets/6003994-uhd_2160_3840_30fps.mp4';
 
 const skuOptionsByNiche = {
   Fashion: {
@@ -39,16 +40,8 @@ const skuOptionsByNiche = {
 function ContentSKUPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { niche, tier } = location.state || { niche: 'Fashion', tier: { name: 'Basic' } };
-
-  // Logic to determine content limits from tier
-  const getLimit = (type) => {
-    if (tier.name === 'Basic') return { Reel: 1, Post: 2, Story: 3 }[type] || 0;
-    if (tier.name === 'Mid') return { Reel: 4, Post: 8, Story: 12 }[type] || 0;
-    if (tier.name === 'Pro') return { Reel: 10, Post: 15, Story: 20 }[type] || 0;
-    if (tier.name === 'Customized' && tier.customCounts) return tier.customCounts[type] || 0;
-    return 0;
-  };
+  const state = location.state || {};
+  const niche = state.niche || 'Fashion';
 
   // State to track counts: { Reel: { 'SKU1': 2 }, Post: { 'SKU2': 1 } }
   const [selections, setSelections] = useState({ Reel: {}, Post: {}, Story: {} });
@@ -63,15 +56,6 @@ function ContentSKUPage() {
 
     if (newCount < 0) return;
 
-    // Check total limit for this type
-    const currentTotal = Object.values(currentTypeSelections).reduce((a, b) => a + b, 0);
-    const limit = getLimit(type);
-
-    if (delta > 0 && currentTotal >= limit) {
-      // Optional: Add a toast or small warning here
-      return;
-    }
-
     setSelections({
       ...selections,
       [type]: {
@@ -83,43 +67,50 @@ function ContentSKUPage() {
 
   const handleContinue = (event) => {
     event.preventDefault();
-    // This would be the final step, navigating to a confirmation or dashboard
-    navigate('/signup/success');
+    // Navigate to subscription tiers, passing the selections along with existing state
+    navigate('/signup/business/subscription-tiers', { state: { ...state, selections } });
   };
 
   return (
     <div className="brand-onboarding-container">
       <header className="onboarding-header">
-        <span className="eyebrow">Final Step</span>
-        <h2>Choose Your Content Styles</h2>
-        <p>Based on your '{tier.name}' plan for the {niche} niche.</p>
+        <span className="eyebrow">Customize Your Plan</span>
+        <h2>Choose Your Content Mix</h2>
+        <p>Select the types and styles of content you need for the {niche} niche. This will create a custom plan for you.</p>
       </header>
 
       <form className="brand-onboarding-form" onSubmit={handleContinue}>
         {contentTypes.map((type) => {
-          const limit = getLimit(type);
-          if (limit === 0) return null;
-          
           const currentTypeSelections = selections[type] || {};
           const currentTotal = Object.values(currentTypeSelections).reduce((a, b) => a + b, 0);
           const options = skuOptions[type] || [];
 
           return (
             <section key={type}>
-              <h3>{type} options: ({currentTotal} of {limit} selected)</h3>
-              <p>Choose {limit} {type}s you want this month. You can select multiple of the same style.</p>
+              <h3>{type} Options ({currentTotal} selected)</h3>
+              <p>Choose the {type.toLowerCase()}s you want this month. You can select multiple of the same style.</p>
+
               <div className="sku-grid">
                 {options.map((option) => {
                   const count = currentTypeSelections[option] || 0;
                   return (
                     <div key={option} className={`sku-card ${count > 0 ? 'selected' : ''}`}>
-                      <div className="sku-info">
-                        <span className="sku-name">{option}</span>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', minHeight: '40px' }}>
+                        <div className="sku-info">
+                          <span className="sku-name" style={{ fontWeight: '600' }}>{option}</span>
+                        </div>
+                        <div className="sku-controls">
+                          <button type="button" className="sku-btn" onClick={() => updateSelection(type, option, -1)}>-</button>
+                          <span className="sku-count">{count}</span>
+                          <button type="button" className="sku-btn" onClick={() => updateSelection(type, option, 1)}>+</button>
+                        </div>
                       </div>
-                      <div className="sku-controls">
-                        <button type="button" className="sku-btn" onClick={() => updateSelection(type, option, -1)}>-</button>
-                        <span className="sku-count">{count}</span>
-                        <button type="button" className="sku-btn" onClick={() => updateSelection(type, option, 1)}>+</button>
+                      <div>
+                        <video 
+                          src={exampleVideo} 
+                          controls 
+                          style={{ width: '100%', height: '350px', borderRadius: '8px', objectFit: 'cover', backgroundColor: '#f0f0f0' }} 
+                        />
                       </div>
                     </div>
                   );
@@ -129,7 +120,7 @@ function ContentSKUPage() {
           );
         })}
         
-        <button type="submit" className="continue-button">Complete Onboarding</button>
+        <button type="submit" className="continue-button">Continue</button>
       </form>
     </div>
   );

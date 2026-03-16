@@ -31,9 +31,18 @@ function SubscriptionTiersPage() {
   const location = useLocation();
   const onboardingState = location.state || {};
 
-  const [reels, setReels] = useState(4);
-  const [posts, setPosts] = useState(8);
-  const [stories, setStories] = useState(12);
+  const { selections } = onboardingState;
+
+  const getInitialCount = (type) => {
+    if (!selections || !selections[type]) {
+      return 0;
+    }
+    return Object.values(selections[type]).reduce((sum, count) => sum + count, 0);
+  };
+
+  const [reels, setReels] = useState(() => getInitialCount('Reel'));
+  const [posts, setPosts] = useState(() => getInitialCount('Post'));
+  const [stories, setStories] = useState(() => getInitialCount('Story'));
 
   const customPrice = useMemo(() => {
     // Updated pricing logic to match Mid ($999) and Pro ($1999) tiers
@@ -48,7 +57,7 @@ function SubscriptionTiersPage() {
       price: `$${customPrice}`,
       customCounts: { Reel: reels, Post: posts, Story: stories }
     };
-    navigate('/signup/business/content-sku', { state: { ...onboardingState, tier: selectedTier } });
+    navigate('/signup/business/success', { state: { tier: selectedTier } });
   };
 
   return (
@@ -60,22 +69,7 @@ function SubscriptionTiersPage() {
       </header>
 
       <div className="tiers-grid">
-        {tiers.map((tier) => (
-          <div className="tier-card" key={tier.name}>
-            <h3>{tier.name}</h3>
-            <p className="tier-price">{tier.price}/mo</p>
-            <p>{tier.description}</p>
-            <strong className="tier-content-amount">{tier.content}</strong>
-            <ul>
-              {tier.features.map((feature) => (
-                <li key={feature}>{feature}</li>
-              ))}
-            </ul>
-            <button className="continue-button" onClick={() => handleSelectTier(tier.name)}>Select {tier.name}</button>
-          </div>
-        ))}
-
-        <div className="tier-card custom-tier">
+        <div className="tier-card custom-tier highlighted">
           <h3>Customized</h3>
           <p>Build a plan that's perfectly tailored to your goals.</p>
           
@@ -118,6 +112,21 @@ function SubscriptionTiersPage() {
 
           <button className="continue-button" onClick={() => handleSelectTier('Customized')}>Select Custom</button>
         </div>
+
+        {tiers.map((tier) => (
+          <div className="tier-card small-card" key={tier.name}>
+            <h3>{tier.name}</h3>
+            <p className="tier-price">{tier.price}/mo</p>
+            <p>{tier.description}</p>
+            <strong className="tier-content-amount">{tier.content}</strong>
+            <ul>
+              {tier.features.map((feature) => (
+                <li key={feature}>{feature}</li>
+              ))}
+            </ul>
+            <button className="continue-button" onClick={() => handleSelectTier(tier.name)}>Select {tier.name}</button>
+          </div>
+        ))}
       </div>
     </div>
   );

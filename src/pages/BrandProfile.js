@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './BrandProfile.css';
 import profilePic from '../assets/profile-pic.jpg';
 import { BRAND_PROFILE_PHOTO_KEY, BRAND_BIO_KEY } from '../utils/storageKeys';
+import BrandBriefSection from '../components/BrandBriefSection';
 
 const brandSummary = {
   name: 'Velvet Petal Boutique',
@@ -117,17 +118,7 @@ function BrandProfile() {
         onChange={handlePhotoUpload}
       />
 
-      <section className="creator-bio-section">
-        <div className="section-heading">
-          <h2>Brand brief</h2>
-          <p>Describe what you are scouting creators for so the right talent applies.</p>
-        </div>
-        <textarea
-          value={bio}
-          onChange={handleBioChange}
-          placeholder="Share the vibe, formats you need, or past collaborators you loved."
-        />
-      </section>
+      <BrandBriefSection />
 
       {/* <section className="campaign-progress-section">
         <div className="section-heading">

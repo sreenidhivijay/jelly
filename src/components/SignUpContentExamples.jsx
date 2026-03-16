@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import CreatorUploads from './CreatorUploads';
+import SignUpVettingIntro from './SignUpVettingIntro';
 
 // These deliverables are specific to the sign-up process
 const exampleDeliverables = [
@@ -24,6 +25,7 @@ const exampleDeliverables = [
 ];
 
 function SignUpContentExamples({ userId, onComplete }) {
+  const [showIntro, setShowIntro] = useState(true);
   const [uploadedContent, setUploadedContent] = useState({});
   const [saveState, setSaveState] = useState(null);
 
@@ -60,6 +62,10 @@ function SignUpContentExamples({ userId, onComplete }) {
       setSaveState({ type: 'error', message: 'Could not submit application. Please try again.' });
     }
   };
+
+  if (showIntro) {
+    return <SignUpVettingIntro onContinue={() => setShowIntro(false)} />;
+  }
 
   return (
     <div className="sign-up-content-examples">

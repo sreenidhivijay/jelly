@@ -54,7 +54,7 @@ function App() {
   return (
     <MeetingProvider>
     <UserProvider>
-      <Router>
+      <Router basename="/">
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -74,6 +74,7 @@ function App() {
           <Route path="/signup/business/subscription-tiers" element={<SubscriptionTiersPage />} />
           <Route path="/signup/business/content-sku" element={<ContentSKUPage />} />
           <Route path="/signup/success" element={<SignupSuccessPage />} />
+          <Route path="/signup/business/success" element={<SignupSuccessPage />} />
 
           <Route path="/signup/creator/niche" element={<CreatorNichePage />} />
           <Route path="/signup/creator/how-it-works" element={<CreatorHowItWorksPage />} />

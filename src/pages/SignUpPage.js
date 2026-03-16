@@ -70,7 +70,7 @@ function SignUpPage() {
 
     // Redirect based on the role
     if (role === "brand" || role === "business") {
-      navigate("/signup/brand");
+      navigate("/signup/business/how-it-works");
     } else if (role === "creator") {
       navigate("/signup/creator/niche");
     } else {

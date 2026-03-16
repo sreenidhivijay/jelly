@@ -11,20 +11,21 @@ const frequencyOptions = [
 function PostingFrequencyPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { niche, contentTypes } = location.state || {};
+  // const { niche, contentTypes } = location.state || {};
 
-  const [selectedFrequency, setSelectedFrequency] = useState(frequencyOptions[0]);
+  // const [selectedFrequency, setSelectedFrequency] = useState(frequencyOptions[0]);
 
-  const handleContinue = (event) => {
-    event.preventDefault();
-    navigate('/signup/business/how-it-works', {
-      state: { niche, contentTypes, frequency: selectedFrequency },
-    });
-  };
+  // const handleContinue = (event) => {
+  //   event.preventDefault();
+  //   navigate('/signup/business/how-it-works', {
+  //     state: { niche, contentTypes, frequency: selectedFrequency },
+  //   });
+  // };
 
   return (
+    // Page commented out per request
     <div className="brand-onboarding-container">
-      <header className="onboarding-header">
+      {/* <header className="onboarding-header">
         <span className="eyebrow">Business Onboarding</span>
         <h2>How many times do you want to post?</h2>
         <p>This will help us determine the right subscription plan for you.</p>
@@ -44,7 +45,8 @@ function PostingFrequencyPage() {
           ))}
         </div>
         <button type="submit" className="continue-button">Continue</button>
-      </form>
+      </form> */}
+      <p>This step is currently disabled.</p>
     </div>
   );
 }
