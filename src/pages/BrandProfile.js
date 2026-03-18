@@ -46,39 +46,37 @@ function BrandProfile() {
     "We are sourcing dreamy storytellers who can film neon-lit tea rituals, slow pour shots, and ASMR garnish prep.",
   );
   const [brandProfile, setBrandProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
   const fileInputRef = useRef(null);
-
-  // useEffect(() => {
-  //   const storedBio = localStorage.getItem(BRAND_BIO_KEY);
-  //   if (storedBio) {
-  //     setBio(storedBio);
-  //   }
-  //   const storedPhoto = localStorage.getItem(BRAND_PROFILE_PHOTO_KEY);
-  //   if (storedPhoto) {
-  //     setProfileImage(storedPhoto);
-  //   }
-  // }, []);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const data = await brandService.getProfile();
         setBrandProfile(data);
+        if (data.bio) setBio(data.bio);
       } catch (error) {
         console.error("Failed to load profile:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchProfile();
   }, []);
 
-  const handleBioChange = async (event) => {
+  const bioTimerRef = useRef(null);
+
+  const handleBioChange = (event) => {
     const value = event.target.value;
     setBio(value);
-    try {
-      await brandService.updateProfile({ description: value });
-    } catch (error) {
-      console.error("Failed to save bio:", error);
-    }
+    clearTimeout(bioTimerRef.current);
+    bioTimerRef.current = setTimeout(async () => {
+      try {
+        await brandService.updateProfile({ bio: value });
+      } catch (error) {
+        console.error("Failed to save bio:", error);
+      }
+    }, 500);
   };
 
   const handlePhotoUpload = async (event) => {
@@ -95,6 +93,79 @@ function BrandProfile() {
     }
     event.target.value = "";
   };
+
+  if (loading) {
+    return (
+      <div className="creator-profile-page">
+        <header className="creator-profile-header brand-profile-header">
+          <div className="brand-header-row">
+            <div
+              className="skeleton skeleton-avatar"
+              style={{ width: 100, height: 100, borderRadius: 24 }}
+            />
+            <div>
+              <div
+                className="skeleton skeleton-line"
+                style={{ width: 100, height: 12 }}
+              />
+              <div
+                className="skeleton skeleton-line"
+                style={{ width: 200, height: 24, marginTop: 16 }}
+              />
+              <div
+                className="skeleton skeleton-line"
+                style={{ width: 280, height: 14, marginTop: 12 }}
+              />
+            </div>
+          </div>
+          <div className="stats-grid">
+            {[1, 2, 3].map((i) => (
+              <div key={i}>
+                <div
+                  className="skeleton skeleton-line"
+                  style={{ width: 100, height: 11 }}
+                />
+                <div
+                  className="skeleton skeleton-line"
+                  style={{ width: 140, height: 16, marginTop: 6 }}
+                />
+              </div>
+            ))}
+          </div>
+        </header>
+        <section className="signature-packages">
+          <div className="section-heading">
+            <div
+              className="skeleton skeleton-line"
+              style={{ width: 200, height: 28 }}
+            />
+            <div
+              className="skeleton skeleton-line"
+              style={{ width: "70%", height: 14 }}
+            />
+          </div>
+          <div className="package-grid">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="package-card">
+                <div
+                  className="skeleton skeleton-line"
+                  style={{ width: "70%", height: 18 }}
+                />
+                <div
+                  className="skeleton skeleton-line"
+                  style={{ width: "100%", height: 14 }}
+                />
+                <div
+                  className="skeleton skeleton-line"
+                  style={{ width: "50%", height: 14 }}
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+    );
+  }
 
   return (
     <div className="creator-profile-page">

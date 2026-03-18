@@ -49,7 +49,7 @@ function Header() {
           )}
           {user.isLoggedIn && user.role === "brand" && (
             <>
-              <li className="nav-item"><Link to="/your-mentors" className="nav-link" onClick={closeMobileMenu}>Campaign & Creator Management</Link></li>
+              <li className="nav-item"><Link to="/campaign" className="nav-link" onClick={closeMobileMenu}>Campaign & Creator Management</Link></li>
               <li className="nav-item"><Link to="/appointments" className="nav-link" onClick={closeMobileMenu}>Campaign Planner</Link></li>
               <li className="nav-item"><Link to="/feedback" className="nav-link" onClick={closeMobileMenu}>Collab Notes</Link></li>
               <li className="nav-item">

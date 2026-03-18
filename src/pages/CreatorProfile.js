@@ -89,10 +89,7 @@ function CreatorProfile() {
   const [availablePackages, setAvailablePackages] = useState(
     getAvailableSignaturePackages(),
   );
-  const [bio, setBio] = useState(
-    "Soft glam storyteller creating dreamy vlogs, cafe rituals, and ASMR unboxings for boutique brands.",
-  );
-  const [profileImage, setProfileImage] = useState(profilePic);
+  const [bio, setBio] = useState("");
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const fileInputRef = useRef(null);
   const [introVideoUrl, setIntroVideoUrl] = useState(null);
@@ -100,7 +97,10 @@ function CreatorProfile() {
 
   useEffect(() => {
     Promise.all([
-      creatorService.getProfile().then(setCreator),
+      creatorService.getProfile().then((data) => {
+        setCreator(data);
+        if (data.bio) setBio(data.bio);
+      }),
       creatorService.getIntroVideo().then(({ presigned_url }) => {
         setIntroVideoUrl(presigned_url);
       }),
@@ -120,13 +120,6 @@ function CreatorProfile() {
       }
     } catch {
       setIncomingRequests(initialIncomingRequests);
-    }
-  }, []);
-
-  useEffect(() => {
-    const storedPhoto = localStorage.getItem(CREATOR_PROFILE_PHOTO_KEY);
-    if (storedPhoto) {
-      setProfileImage(storedPhoto);
     }
   }, []);
 
@@ -154,6 +147,21 @@ function CreatorProfile() {
     };
   }, []);
 
+  const bioTimerRef = useRef(null);
+
+  const handleBioChange = (event) => {
+    const value = event.target.value;
+    setBio(value);
+    clearTimeout(bioTimerRef.current);
+    bioTimerRef.current = setTimeout(async () => {
+      try {
+        await creatorService.updateProfile({ bio: value });
+      } catch (error) {
+        console.error("Failed to save bio:", error);
+      }
+    }, 500);
+  };
+
   const handleToggleBlock = () => {
     if (!blockStart || !blockEnd) {
       return;
@@ -178,7 +186,6 @@ function CreatorProfile() {
     if (!file) return;
     try {
       const brandData = await creatorService.uploadProfilePhoto(file);
-      setProfileImage(brandData.profile_image_url);
       setCreator((prev) => ({
         ...prev,
         profile_image_url: brandData.profile_image_url,
@@ -301,7 +308,7 @@ function CreatorProfile() {
             onClick={handleProfileClick}
           >
             <img
-              src={creator?.profile_image_url || profileImage}
+              src={creator?.profile_image_url || profilePic}
               alt="Creator profile"
             />
           </button>
@@ -349,10 +356,7 @@ function CreatorProfile() {
             know how you will show up.
           </p>
         </div>
-        <textarea
-          value={bio}
-          onChange={(event) => setBio(event.target.value)}
-        />
+        <textarea value={bio} onChange={handleBioChange} />
       </section>
 
       <section className="metrics-grid">
@@ -531,7 +535,7 @@ function CreatorProfile() {
               ×
             </button>
             <img
-              src={profileImage}
+              src={creator?.profile_image_url || profilePic}
               alt="Creator profile preview"
               className="profile-photo-large"
             />
