@@ -74,7 +74,7 @@ function SubscriptionTiersPage() {
     return Math.max(0, price);
   }, [reels, posts, stories]);
 
-  const [loading, setLoading] = useState(false);
+  const [loadingTier, setLoadingTier] = useState(null);
 
   const handleSelectTier = async (tierValue) => {
     const customCounts =
@@ -83,19 +83,13 @@ function SubscriptionTiersPage() {
         : null;
 
     try {
-      setLoading(true);
-      await subscriptionService.subscribe(tierValue, customCounts);
-      const selectedTier = tiers.find((t) => t.value === tierValue) || {
-        name: "Customized",
-        value: "custom",
-        price: `$${customPrice}`,
-        customCounts,
-      };
-      navigate("/signup/business/success", { state: { tier: selectedTier } });
+      setLoadingTier(tierValue);
+      const { checkout_url } = await subscriptionService.subscribe(tierValue, customCounts);
+      window.location.href = checkout_url;
     } catch (error) {
       alert(error.message || "Failed to subscribe. Please try again.");
     } finally {
-      setLoading(false);
+      setLoadingTier(null);
     }
   };
 
@@ -151,10 +145,10 @@ function SubscriptionTiersPage() {
 
           <button
             className="continue-button"
-            disabled={loading}
+            disabled={loadingTier !== null}
             onClick={() => handleSelectTier("custom")}
           >
-            {loading ? "Subscribing…" : "Select Custom"}
+            {loadingTier === "custom" ? "Subscribing…" : "Select Custom"}
           </button>
         </div>
 
@@ -171,10 +165,10 @@ function SubscriptionTiersPage() {
             </ul>
             <button
               className="continue-button"
-              disabled={loading}
+              disabled={loadingTier !== null}
               onClick={() => handleSelectTier(tier.value)}
             >
-              {loading ? "Subscribing…" : `Select ${tier.name}`}
+              {loadingTier === tier.value ? "Subscribing…" : `Select ${tier.name}`}
             </button>
           </div>
         ))}

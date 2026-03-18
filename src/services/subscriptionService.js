@@ -11,6 +11,8 @@ const subscriptionService = {
       reels: customCounts?.Reel || 0,
       posts: customCounts?.Post || 0,
       stories: customCounts?.Story || 0,
+      success_url: `${window.location.origin}/signup/business/success`,
+      cancel_url: `${window.location.origin}/signup/business/subscription-tiers`,
     });
   },
 

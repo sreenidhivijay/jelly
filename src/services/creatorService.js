@@ -40,6 +40,17 @@ const creatorService = {
     });
     return Promise.all(uploadPromises);
   },
+
+  async blockInvites(blockStart, blockEnd) {
+    const blockout = api.post("/creators/me/blackouts", {
+      start_date: blockStart,
+      end_date: blockEnd,
+    });
+    return blockout;
+  },
+  async clearBlockInvites(blockoutId) {
+    return api.delete(`/creators/me/blackouts/${blockoutId}`);
+  },
 };
 
 export default creatorService;
