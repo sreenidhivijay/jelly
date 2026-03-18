@@ -48,6 +48,37 @@
   color: var(--coquette-soft-black);
 }
 
+.verification-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 20px;
+  /* background: #fff3e0; */
+  /* border: 1px solid #ffcc80; */
+  border-radius: 12px;
+}
+
+.verification-banner-icon {
+  font-size: 20px;
+  line-height: 1;
+  flex-shrink: 0;
+  color: #e65100;
+}
+
+.verification-banner-text strong {
+  display: block;
+  font-size: 14px;
+  color: #e65100;
+  margin-bottom: 2px;
+}
+
+.verification-banner-text p {
+  margin: 0;
+  font-size: 13px;
+  color: #bf360c;
+  line-height: 1.4;
+}
+
 .campaign-progress-section {
   /* Inherits from CreatorProfile.css but can be customized here */
 }

@@ -26,7 +26,7 @@ api.interceptors.response.use(
       window.location.href = '/login';
       return Promise.reject(new Error('Session expired'));
     }
-    const message = error.response?.data?.message || 'Something went wrong';
+    const message = error.response?.data?.detail || 'Something went wrong';
     return Promise.reject(new Error(message));
   }
 );

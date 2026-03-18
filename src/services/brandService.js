@@ -11,9 +11,9 @@ const brandService = {
   },
 
   async uploadProfilePhoto(file) {
-    const fileUrl = await uploadService.uploadFile(file);
-    await api.patch("/brands/me/profile", { profile_photo_url: fileUrl });
-    return fileUrl;
+    const objectKey = await uploadService.uploadFile(file, "profile-image");
+    const brandData = await api.put("/brands/me/profile-image", { profile_image_key: objectKey });
+    return brandData;
   },
 };
 

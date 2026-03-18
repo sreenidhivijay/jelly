@@ -1,51 +1,51 @@
-import React, { useEffect, useRef, useState } from 'react';
-import './BrandProfile.css';
-import profilePic from '../assets/profile-pic.jpg';
-// import { BRAND_PROFILE_PHOTO_KEY, BRAND_BIO_KEY } from '../utils/storageKeys';
-import BrandBriefSection from '../components/BrandBriefSection';
-import brandService from '../services/brandService';
+import React, { useEffect, useRef, useState } from "react";
+import "./BrandProfile.css";
+import profilePic from "../assets/profile-pic.jpg";
+import BrandBriefSection from "../components/BrandBriefSection";
+import brandService from "../services/brandService";
 
 const brandSummary = {
-  name: 'Velvet Petal Boutique',
-  tagline: 'Luxury tea salon curating high tea rituals for the afterhours crowd.',
+  name: "Velvet Petal Boutique",
+  tagline:
+    "Luxury tea salon curating high tea rituals for the afterhours crowd.",
   stats: {
-    leadCampaign: 'Midnight High Tea Drop',
-    budget: '$25k launch',
-    needs: 'Reels + Story suites',
+    leadCampaign: "Midnight High Tea Drop",
+    budget: "$25k launch",
+    needs: "Reels + Story suites",
   },
 };
 
 const progressCampaigns = [
   {
-    id: 'midnight-tea',
-    title: 'Midnight High Tea Drop',
-    brand: 'Velvet Petal Boutique',
-    status: 'Accepted',
-    due: 'Deliver by Dec 05',
+    id: "midnight-tea",
+    title: "Midnight High Tea Drop",
+    brand: "Velvet Petal Boutique",
+    status: "Accepted",
+    due: "Deliver by Dec 05",
     checklist: [
-      { item: 'Concept submitted', done: true },
-      { item: 'Shoot scheduled', done: true },
-      { item: 'Content upload', done: false },
+      { item: "Concept submitted", done: true },
+      { item: "Shoot scheduled", done: true },
+      { item: "Content upload", done: false },
     ],
   },
   {
-    id: 'noir-glow',
-    title: 'Noir Glow Capsule',
-    brand: 'Glow Cartel',
-    status: 'Applied',
-    due: 'Awaiting shortlist',
+    id: "noir-glow",
+    title: "Noir Glow Capsule",
+    brand: "Glow Cartel",
+    status: "Applied",
+    due: "Awaiting shortlist",
     checklist: [
-      { item: 'Application submitted', done: true },
-      { item: 'Awaiting response', done: false },
+      { item: "Application submitted", done: true },
+      { item: "Awaiting response", done: false },
     ],
   },
 ];
 
 function BrandProfile() {
   const [bio, setBio] = useState(
-    'We are sourcing dreamy storytellers who can film neon-lit tea rituals, slow pour shots, and ASMR garnish prep.'
+    "We are sourcing dreamy storytellers who can film neon-lit tea rituals, slow pour shots, and ASMR garnish prep.",
   );
-  const [profileImage, setProfileImage] = useState(profilePic);
+  const [brandProfile, setBrandProfile] = useState(null);
   const fileInputRef = useRef(null);
 
   // useEffect(() => {
@@ -63,42 +63,21 @@ function BrandProfile() {
     const fetchProfile = async () => {
       try {
         const data = await brandService.getProfile();
-        if (data.bio) setBio(data.bio);
-        if (data.profile_photo_url) setProfileImage(data.profile_photo_url);
+        setBrandProfile(data);
       } catch (error) {
-        console.error('Failed to load profile:', error);
+        console.error("Failed to load profile:", error);
       }
     };
     fetchProfile();
   }, []);
 
-  // const handleBioChange = (event) => {
-  //   const value = event.target.value;
-  //   setBio(value);
-  //   localStorage.setItem(BRAND_BIO_KEY, value);
-  // };
-
-  // const handlePhotoUpload = (event) => {
-  //   const file = event.target.files?.[0];
-  //   if (!file) return;
-  //   const reader = new FileReader();
-  //   reader.onloadend = () => {
-  //     if (typeof reader.result === 'string') {
-  //       setProfileImage(reader.result);
-  //       localStorage.setItem(BRAND_PROFILE_PHOTO_KEY, reader.result);
-  //     }
-  //   };
-  //   reader.readAsDataURL(file);
-  //   event.target.value = '';
-  // };
-
   const handleBioChange = async (event) => {
     const value = event.target.value;
     setBio(value);
     try {
-      await brandService.updateProfile({ bio: value });
+      await brandService.updateProfile({ description: value });
     } catch (error) {
-      console.error('Failed to save bio:', error);
+      console.error("Failed to save bio:", error);
     }
   };
 
@@ -106,16 +85,28 @@ function BrandProfile() {
     const file = event.target.files?.[0];
     if (!file) return;
     try {
-      const fileUrl = await brandService.uploadProfilePhoto(file);
-      setProfileImage(fileUrl);
+      const brandData = await brandService.uploadProfilePhoto(file);
+      setBrandProfile((prev) => ({
+        ...prev,
+        profile_image_url: brandData.profile_image_url,
+      }));
     } catch (error) {
-      console.error('Failed to upload photo:', error);
+      console.error("Failed to upload photo:", error);
     }
-    event.target.value = '';
+    event.target.value = "";
   };
 
   return (
     <div className="creator-profile-page">
+      {/* {!isVerified && (
+        <div className="verification-banner">
+          <span className="verification-banner-icon">⚠</span>
+          <div className="verification-banner-text">
+            <strong>Your account is not verified</strong>
+            <p>Please verify your account to unlock all features and start collaborating with creators.</p>
+          </div>
+        </div>
+      )} */}
       <header className="creator-profile-header brand-profile-header">
         <div className="brand-header-row">
           <button
@@ -123,7 +114,10 @@ function BrandProfile() {
             className="brand-avatar-button"
             onClick={() => fileInputRef.current?.click()}
           >
-            <img src={profileImage} alt={`${brandSummary.name} profile`} />
+            <img
+              src={brandProfile?.profile_image_url || profilePic}
+              alt={`${brandSummary.name} profile`}
+            />
           </button>
           <div>
             <span className="eyebrow">Brand profile</span>
@@ -134,7 +128,9 @@ function BrandProfile() {
         <div className="stats-grid">
           <div>
             <span className="metric-label">Ongoing campaign</span>
-            <span className="metric-value">{brandSummary.stats.leadCampaign}</span>
+            <span className="metric-value">
+              {brandSummary.stats.leadCampaign}
+            </span>
           </div>
           <div>
             <span className="metric-label">Budget</span>
@@ -150,7 +146,7 @@ function BrandProfile() {
         type="file"
         accept="image/*"
         ref={fileInputRef}
-        style={{ display: 'none' }}
+        style={{ display: "none" }}
         onChange={handlePhotoUpload}
       />
 
