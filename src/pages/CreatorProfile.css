@@ -500,6 +500,28 @@
   justify-content: center;
 }
 
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.3; }
+}
+
+.skeleton {
+  background: rgba(26, 12, 21, 0.12);
+  border-radius: 8px;
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+.skeleton-avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 32px;
+  flex-shrink: 0;
+}
+
+.skeleton-line {
+  height: 14px;
+}
+
 @media (max-width: 640px) {
   .creator-profile-page {
     padding: 0 16px;

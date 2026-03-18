@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { FiUploadCloud } from 'react-icons/fi';
 import './BrandRegistration.css';
 import './CreatorPortfolioUploadPage.css';
+import creatorService from '../services/creatorService';
 
 const MAX_PORTFOLIO_UPLOADS = 50;
 
@@ -49,6 +50,8 @@ function CreatorPortfolioUploadPage() {
       setMessage('Please upload at least one reel or portfolio sample to continue.');
       return;
     }
+
+    creatorService.uploadPortfolio(portfolioFiles);
 
     navigate('/signup/creator/approval', {
       state: {

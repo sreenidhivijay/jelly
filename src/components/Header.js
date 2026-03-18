@@ -6,13 +6,13 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import './Header.css';
 
 function Header() {
-  const { user, setUser } = useUser();
+  const { user, logout } = useUser();
   const navigate = useNavigate();
-  
+
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false); // Manage mobile menu state
 
   const handleLogout = () => {
-    setUser({ isLoggedIn: false, role: null });
+    logout();
     navigate('/');
   };
 
@@ -49,7 +49,7 @@ function Header() {
           )}
           {user.isLoggedIn && user.role === "brand" && (
             <>
-              <li className="nav-item"><Link to="/your-mentors" className="nav-link" onClick={closeMobileMenu}>Campaign & Creator Management</Link></li>
+              <li className="nav-item"><Link to="/campaign" className="nav-link" onClick={closeMobileMenu}>Campaign & Creator Management</Link></li>
               <li className="nav-item"><Link to="/appointments" className="nav-link" onClick={closeMobileMenu}>Campaign Planner</Link></li>
               <li className="nav-item"><Link to="/feedback" className="nav-link" onClick={closeMobileMenu}>Collab Notes</Link></li>
               <li className="nav-item">
@@ -79,7 +79,7 @@ function Header() {
                 className="profile-icon-btn"
                 onClick={() => {
                   closeMobileMenu();
-                  navigate(user.role === "creator" ? "/mentor-profile" : "/mentee-profile");
+                  navigate(user.role === "creator" ? "/creator-profile" : "/brand-profile");
                 }}
               >
                 <FontAwesomeIcon icon={faUser} className="profile-icon" />
@@ -131,7 +131,7 @@ function Header() {
               <FontAwesomeIcon
                 icon={faUser}
                 className="profile-icon"
-                onClick={() => navigate(user.role === "creator" ? "/mentor-profile" : "/mentee-profile")}
+                onClick={() => navigate(user.role === "creator" ? "/creator-profile" : "/brand-profile")}
               />
             </li>
           </>

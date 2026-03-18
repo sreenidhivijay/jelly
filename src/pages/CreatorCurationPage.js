@@ -1,52 +1,84 @@
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import './BrandRegistration.css';
-import './CreatorCurationPage.css';
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import "./BrandRegistration.css";
+import "./CreatorCurationPage.css";
 import { FiUploadCloud } from "react-icons/fi";
+import creatorService from "../services/creatorService";
 
 function CreatorCurationPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { niche } = location.state || { niche: 'General' };
+  const { niche, description } = location.state || {
+    niche: "General",
+    description: "",
+  };
   const [file, setFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
-  const handleContinue = (event) => {
+  const handleContinue = async (event) => {
     event.preventDefault();
     if (!file) {
       alert("Please upload a video to continue.");
       return;
     }
-    // In a real app, upload logic goes here
-    navigate('/signup/creator/portfolio', { state: { niche } });
+
+    try {
+      setUploading(true);
+      await creatorService.updateProfile({
+        niche,
+        description,
+      });
+      await creatorService.uploadIntroVideo(file);
+      navigate('/signup/creator/portfolio', { state: { niche } });
+    } catch (error) {
+      alert(error.message || "Upload failed. Please try again.");
+    } finally {
+      setUploading(false);
+    }
   };
 
   const getPrompt = (niche) => {
-    if (niche.includes('Food')) return "Create a 15s Reel showcasing a morning coffee run with ASMR voiceover.";
-    if (niche.includes('Fashion')) return "Create a transition video styling one white shirt in three different ways.";
+    if (niche.includes("Food"))
+      return "Create a 15s Reel showcasing a morning coffee run with ASMR voiceover.";
+    if (niche.includes("Fashion"))
+      return "Create a transition video styling one white shirt in three different ways.";
     return "Create a 30s video introducing yourself and your creative process.";
-  }
+  };
 
   return (
     <div className="brand-onboarding-container">
       <header className="onboarding-header">
         <span className="eyebrow">Curation Process</span>
         <h2>Show us what you've got</h2>
-        <p>To ensure quality for our brands, please complete the following prompt.</p>
+        <p>
+          To ensure quality for our brands, please complete the following
+          prompt.
+        </p>
       </header>
 
       <form className="brand-onboarding-form" onSubmit={handleContinue}>
-        <section style={{ background: '#fff', padding: '24px', borderRadius: '16px', border: '1px dashed #ccc', textAlign: 'center' }}>
-          <h3 style={{ marginBottom: '10px' }}>Your Prompt: {niche}</h3>
-          <p style={{ fontStyle: 'italic', fontSize: '16px', color: '#555' }}>"{getPrompt(niche)}"</p>
+        <section
+          style={{
+            background: "#fff",
+            padding: "24px",
+            borderRadius: "16px",
+            border: "1px dashed #ccc",
+            textAlign: "center",
+          }}
+        >
+          <h3 style={{ marginBottom: "10px" }}>Your Prompt: {niche}</h3>
+          <p style={{ fontStyle: "italic", fontSize: "16px", color: "#555" }}>
+            "{getPrompt(niche)}"
+          </p>
         </section>
 
         <section className="upload-section">
           <label className="file-upload-box">
-            <input 
-              type="file" 
-              accept="video/*" 
+            <input
+              type="file"
+              accept="video/*"
               onChange={(e) => setFile(e.target.files[0])}
-              style={{ display: 'none' }}
+              style={{ display: "none" }}
             />
             <div className="upload-content">
               <FiUploadCloud className="upload-icon" />
@@ -62,8 +94,8 @@ function CreatorCurationPage() {
           </label>
         </section>
 
-        <button type="submit" className="continue-button">
-          Submit for Review
+        <button type="submit" className="continue-button" disabled={uploading}>
+          {uploading ? "Uploading…" : "Submit for Review"}
         </button>
       </form>
     </div>
