@@ -41,6 +41,10 @@ const creatorService = {
     return Promise.all(uploadPromises);
   },
 
+  async deletePortfolioItem(itemId) {
+    return api.delete(`/creators/me/portfolio/${itemId}`);
+  },
+  
   async blockInvites(blockStart, blockEnd) {
     const blockout = api.post("/creators/me/blackouts", {
       start_date: blockStart,

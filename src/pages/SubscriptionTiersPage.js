@@ -46,7 +46,7 @@ const tiers = [
   },
 ];
 
-function SubscriptionTiersPage() {
+function SubscriptionTiersPage({ modify }) {
   const navigate = useNavigate();
   const location = useLocation();
   const onboardingState = location.state || {};
@@ -84,7 +84,16 @@ function SubscriptionTiersPage() {
 
     try {
       setLoadingTier(tierValue);
-      const { checkout_url } = await subscriptionService.subscribe(tierValue, customCounts);
+      if (modify) {
+        await subscriptionService.updateSubscription(tierValue, customCounts);
+        navigate("/subscription");
+        alert("Subscription updated successfully!");
+        return;
+      }
+      const { checkout_url } = await subscriptionService.subscribe(
+        tierValue,
+        customCounts,
+      );
       window.location.href = checkout_url;
     } catch (error) {
       alert(error.message || "Failed to subscribe. Please try again.");
@@ -168,7 +177,9 @@ function SubscriptionTiersPage() {
               disabled={loadingTier !== null}
               onClick={() => handleSelectTier(tier.value)}
             >
-              {loadingTier === tier.value ? "Subscribing…" : `Select ${tier.name}`}
+              {loadingTier === tier.value
+                ? "Subscribing…"
+                : `Select ${tier.name}`}
             </button>
           </div>
         ))}

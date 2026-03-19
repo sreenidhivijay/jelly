@@ -92,8 +92,6 @@ function CreatorProfile() {
   const [bio, setBio] = useState("");
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const fileInputRef = useRef(null);
-  const [introVideoUrl, setIntroVideoUrl] = useState(null);
-  const [portfolioUrls, setPortfolioUrls] = useState([]);
   const [stripeConnected, setStripeConnected] = useState(true);
   const [connectingStripe, setConnectingStripe] = useState(false);
 
@@ -118,13 +116,6 @@ function CreatorProfile() {
           setStripeConnected(false);
         }),
     ]).finally(() => setLoading(false));
-
-    creatorService.getIntroVideo().then(({ presigned_url }) => {
-      setIntroVideoUrl(presigned_url);
-    });
-    creatorService.getPortfolio().then((data) => {
-      setPortfolioUrls(data.files || []);
-    });
   }, []);
 
   useEffect(() => {
@@ -389,14 +380,14 @@ function CreatorProfile() {
           <div className="availability-buttons">
             <button
               type="button"
-              className={creator?.open_to_collab ? "active" : ""}
+              className={acceptingCollabs ? "active" : ""}
               onClick={() => handleAcceptingCollabs(true)}
             >
               Yes
             </button>
             <button
               type="button"
-              className={!creator?.open_to_collab ? "active" : ""}
+              className={!acceptingCollabs ? "active" : ""}
               onClick={() => handleAcceptingCollabs(false)}
             >
               No
@@ -415,7 +406,7 @@ function CreatorProfile() {
             disabled={connectingStripe}
             onClick={handleConnectStripe}
           >
-            {connectingStripe ? "Connecting…" : "Connect Stripe"}
+            {connectingStripe ? "Connecting..." : "Connect Stripe"}
           </button>
         </div>
       )}

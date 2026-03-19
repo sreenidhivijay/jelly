@@ -35,7 +35,7 @@ function EmailVerificationPage() {
         {status === "verifying" && (
           <>
             <span className="eyebrow">Almost there</span>
-            <h2>Verifying your email…</h2>
+            <h2>Verifying your email...</h2>
             <p>Hang tight while we confirm your address.</p>
           </>
         )}
