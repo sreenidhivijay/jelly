@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import SignUpPage from "./pages/SignUpPage";
@@ -24,7 +24,7 @@ import FeedbackPage from "./pages/FeedbackPage";
 import CreatorRequestsPage from "./pages/CreatorRequestsPage";
 import CreatorAppointmentsPage from "./pages/CreatorAppointmentsPage";
 
-import { UserProvider } from "./components/UserContext";
+import { UserProvider, useUser } from "./components/UserContext";
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import YourCampaigns from "./pages/YourCampaigns";
@@ -52,125 +52,125 @@ import EmailVerificationPage from "./pages/EmailVerificationPage";
 import SubscriptionPage from "./pages/SubscriptionPage";
 import CreatorPortfolioPage from "./pages/CreatorPortfolioPage";
 
+function AppRouter() {
+  return (
+    <Router basename="/">
+      <Header />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/signup/brand" element={<BrandRegistration />} />
+        <Route path="/signup/brand/terms" element={<BrandTerms />} />
+        <Route path="/signup/creator" element={<CreatorRegistration />} />
+        <Route path="/signup/creator/terms" element={<CreatorTerms />} />
+        <Route path="/verify-email" element={<EmailVerificationPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/creator-profile" element={<CreatorProfile />} />
+        <Route path="/brand-profile" element={<BrandProfile />} />
+        <Route path="/campaign" element={<CampaignPage />} />
+        <Route
+          path="/campaigns/midnight-high-tea"
+          element={<MidnightHighTeaDrop />}
+        />
+        <Route
+          path="/signup/business/content-types"
+          element={<ContentTypeSelectionPage />}
+        />
+        <Route
+          path="/signup/business/posting-frequency"
+          element={<PostingFrequencyPage />}
+        />
+        <Route
+          path="/signup/business/how-it-works"
+          element={<HowItWorksPage />}
+        />
+        <Route
+          path="/signup/business/subscription-tiers"
+          element={<SubscriptionTiersPage />}
+        />
+        <Route
+          path="/signup/business/content-sku"
+          element={<ContentSKUPage />}
+        />
+        <Route path="/signup/success" element={<SignupSuccessPage />} />
+        <Route
+          path="/signup/business/success"
+          element={<SignupSuccessPage />}
+        />
+
+        <Route path="/signup/creator/niche" element={<CreatorNichePage />} />
+        <Route
+          path="/signup/creator/how-it-works"
+          element={<CreatorHowItWorksPage />}
+        />
+        <Route
+          path="/signup/creator/curation"
+          element={<CreatorCurationPage />}
+        />
+        <Route
+          path="/signup/creator/portfolio"
+          element={<CreatorPortfolioUploadPage />}
+        />
+        <Route
+          path="/signup/creator/approval"
+          element={<CreatorApprovalPage />}
+        />
+        <Route
+          path="/signup/creator/approved"
+          element={<CreatorApprovedPage />}
+        />
+        <Route path="/creator-dashboard" element={<CreatorDashboardPage />} />
+        <Route
+          path="/creator-completed-tasks"
+          element={<CompletedTasksPage />}
+        />
+
+        <Route
+          path="/application-success"
+          element={<ApplicationSuccessPage />}
+        />
+        <Route
+          path="/signature-packages/:slug"
+          element={<SignaturePackageProposalPage />}
+        />
+        <Route path="/search" element={<SearchCriteriaPage />} />
+        <Route path="/search/results" element={<SearchResultsPage />} />
+        <Route path="/creator/:id" element={<CreatorSearchDetailsPage />} />
+        <Route path="/schedule/:id" element={<ScheduleMeetingPage />} />
+        <Route
+          path="/meeting-request-submitted"
+          element={<MeetingRequestSubmittedPage />}
+        />
+        <Route path="/appointments" element={<AppointmentsPage />} />
+        <Route path="/virtual-session" element={<VirtualSessionPage />} />
+
+        <Route path="/creator-requests" element={<CreatorRequestsPage />} />
+        <Route path="/feedback" element={<FeedbackPage />} />
+        <Route path="/your-campaigns" element={<YourCampaigns />} />
+        <Route path="/brand/:id" element={<BrandDetails />} />
+        <Route path="/your-creators" element={<YourCreators />} />
+        <Route path="/creator-profile/:id" element={<CreatorDetails />} />
+
+        <Route
+          path="/creator-appointments"
+          element={<CreatorAppointmentsPage />}
+        />
+        <Route path="/subscription" element={<SubscriptionPage />} />
+        <Route path="/creator-portfolio" element={<CreatorPortfolioPage />} />
+        <Route
+          path="/subscription/modify"
+          element={<SubscriptionTiersPage modify />}
+        />
+      </Routes>
+    </Router>
+  );
+}
+
 function App() {
   return (
     <MeetingProvider>
       <UserProvider>
-        <Router basename="/">
-          <Header />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/signup/brand" element={<BrandRegistration />} />
-            <Route path="/signup/brand/terms" element={<BrandTerms />} />
-            <Route path="/signup/creator" element={<CreatorRegistration />} />
-            <Route path="/signup/creator/terms" element={<CreatorTerms />} />
-            <Route path="/verify-email" element={<EmailVerificationPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/creator-profile" element={<CreatorProfile />} />
-            <Route path="/brand-profile" element={<BrandProfile />} />
-            <Route path="/campaign" element={<CampaignPage />} />
-            <Route
-              path="/campaigns/midnight-high-tea"
-              element={<MidnightHighTeaDrop />}
-            />
-            <Route
-              path="/signup/business/content-types"
-              element={<ContentTypeSelectionPage />}
-            />
-            <Route
-              path="/signup/business/posting-frequency"
-              element={<PostingFrequencyPage />}
-            />
-            <Route
-              path="/signup/business/how-it-works"
-              element={<HowItWorksPage />}
-            />
-            <Route
-              path="/signup/business/subscription-tiers"
-              element={<SubscriptionTiersPage />}
-            />
-            <Route
-              path="/signup/business/content-sku"
-              element={<ContentSKUPage />}
-            />
-            <Route path="/signup/success" element={<SignupSuccessPage />} />
-            <Route
-              path="/signup/business/success"
-              element={<SignupSuccessPage />}
-            />
-
-            <Route
-              path="/signup/creator/niche"
-              element={<CreatorNichePage />}
-            />
-            <Route
-              path="/signup/creator/how-it-works"
-              element={<CreatorHowItWorksPage />}
-            />
-            <Route
-              path="/signup/creator/curation"
-              element={<CreatorCurationPage />}
-            />
-            <Route
-              path="/signup/creator/portfolio"
-              element={<CreatorPortfolioUploadPage />}
-            />
-            <Route
-              path="/signup/creator/approval"
-              element={<CreatorApprovalPage />}
-            />
-            <Route
-              path="/signup/creator/approved"
-              element={<CreatorApprovedPage />}
-            />
-            <Route
-              path="/creator-dashboard"
-              element={<CreatorDashboardPage />}
-            />
-            <Route
-              path="/creator-completed-tasks"
-              element={<CompletedTasksPage />}
-            />
-
-            <Route
-              path="/application-success"
-              element={<ApplicationSuccessPage />}
-            />
-            <Route
-              path="/signature-packages/:slug"
-              element={<SignaturePackageProposalPage />}
-            />
-            <Route path="/search" element={<SearchCriteriaPage />} />
-            <Route path="/search/results" element={<SearchResultsPage />} />
-            <Route path="/creator/:id" element={<CreatorSearchDetailsPage />} />
-            <Route path="/schedule/:id" element={<ScheduleMeetingPage />} />
-            <Route
-              path="/meeting-request-submitted"
-              element={<MeetingRequestSubmittedPage />}
-            />
-            <Route path="/appointments" element={<AppointmentsPage />} />
-            <Route path="/virtual-session" element={<VirtualSessionPage />} />
-
-            <Route path="/creator-requests" element={<CreatorRequestsPage />} />
-            <Route path="/feedback" element={<FeedbackPage />} />
-            <Route path="/your-campaigns" element={<YourCampaigns />} />
-            <Route path="/brand/:id" element={<BrandDetails />} />
-            <Route path="/your-creators" element={<YourCreators />} />
-            <Route path="/creator-profile/:id" element={<CreatorDetails />} />
-
-            <Route
-              path="/creator-appointments"
-              element={<CreatorAppointmentsPage />}
-            />
-            <Route path="/subscription" element={<SubscriptionPage />} />
-            <Route path="/creator-portfolio" element={<CreatorPortfolioPage />} />
-            <Route
-              path="/subscription/modify"
-              element={<SubscriptionTiersPage modify />}
-            />
-          </Routes>
-        </Router>
+        <AppRouter />
       </UserProvider>
     </MeetingProvider>
   );

@@ -373,8 +373,9 @@ function CreatorDashboardPage() {
       {selectedTask && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-content-inner">
             <button className="modal-close" onClick={closeModal}>×</button>
-            
+
             <div className="modal-header">
               <span className="sku-badge" style={{ marginBottom: '8px', display: 'inline-block' }}>{selectedTask.sku}</span>
               <h2>{selectedTask.brand}</h2>
@@ -426,6 +427,7 @@ function CreatorDashboardPage() {
                 <button className="modal-btn-accept" onClick={() => handleAccept(selectedTask)}>Accept Job</button>
               </div>
             )}
+            </div>
           </div>
         </div>
       )}

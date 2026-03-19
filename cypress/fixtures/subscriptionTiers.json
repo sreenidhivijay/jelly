@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Starter",
+    "price": 99,
+    "features": ["5 creators", "Basic analytics"]
+  },
+  {
+    "name": "Pro",
+    "price": 199,
+    "features": ["15 creators", "Advanced analytics", "Priority support"]
+  },
+  {
+    "name": "Enterprise",
+    "price": 499,
+    "features": ["Unlimited creators", "Custom analytics", "Dedicated manager"]
+  }
+]

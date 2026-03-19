@@ -54,7 +54,7 @@ function Header() {
             <>
               <li className="nav-item">
                 <Link
-                  to="/your-mentees"
+                  to="/your-collabs"
                   className="nav-link"
                   onClick={closeMobileMenu}
                 >
@@ -63,7 +63,7 @@ function Header() {
               </li>
               <li className="nav-item">
                 <Link
-                  to="/mentee-requests"
+                  to="/collab-requests"
                   className="nav-link"
                   onClick={closeMobileMenu}
                 >
@@ -72,16 +72,7 @@ function Header() {
               </li>
               <li className="nav-item">
                 <Link
-                  to="/mentor-appointments"
-                  className="nav-link"
-                  onClick={closeMobileMenu}
-                >
-                  Content Calendar
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  to="/marketplace"
+                  to="/collab-appointments"
                   className="nav-link"
                   onClick={closeMobileMenu}
                 >
