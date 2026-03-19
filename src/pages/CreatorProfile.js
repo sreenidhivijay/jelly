@@ -11,6 +11,7 @@ import {
 } from "../utils/storageKeys";
 import { signaturePackages } from "../data/signaturePackages";
 import creatorService from "../services/creatorService";
+import stripeConnectService from "../services/stripeConnectService";
 
 const recentCollaborations = [
   {
@@ -81,6 +82,7 @@ function CreatorProfile() {
   const [rateCardLink, setRateCardLink] = useState("");
   const [blockStart, setBlockStart] = useState("");
   const [blockEnd, setBlockEnd] = useState("");
+  const [acceptingCollabs, setAcceptingCollabs] = useState(true);
   const [incomingRequests, setIncomingRequests] = useState(
     initialIncomingRequests,
   );
@@ -92,6 +94,8 @@ function CreatorProfile() {
   const fileInputRef = useRef(null);
   const [introVideoUrl, setIntroVideoUrl] = useState(null);
   const [portfolioUrls, setPortfolioUrls] = useState([]);
+  const [stripeConnected, setStripeConnected] = useState(true);
+  const [connectingStripe, setConnectingStripe] = useState(false);
 
   const blockInvites = creator?.blackouts?.length > 0;
 
@@ -102,14 +106,25 @@ function CreatorProfile() {
         if (data.bio) setBio(data.bio);
         if (data.media_kit_url) setMediaKitLink(data.media_kit_url);
         if (data.rate_card_url) setRateCardLink(data.rate_card_url);
+        if (data.open_to_collab !== undefined)
+          setAcceptingCollabs(data.open_to_collab);
       }),
-      creatorService.getIntroVideo().then(({ presigned_url }) => {
-        setIntroVideoUrl(presigned_url);
-      }),
-      creatorService.getPortfolio().then((data) => {
-        setPortfolioUrls(data.files || []);
-      }),
+      stripeConnectService
+        .getStatus()
+        .then(({ connected }) => {
+          setStripeConnected(connected);
+        })
+        .catch(() => {
+          setStripeConnected(false);
+        }),
     ]).finally(() => setLoading(false));
+
+    creatorService.getIntroVideo().then(({ presigned_url }) => {
+      setIntroVideoUrl(presigned_url);
+    });
+    creatorService.getPortfolio().then((data) => {
+      setPortfolioUrls(data.files || []);
+    });
   }, []);
 
   useEffect(() => {
@@ -164,7 +179,22 @@ function CreatorProfile() {
     }, 500);
   };
 
+  const handleConnectStripe = async () => {
+    try {
+      setConnectingStripe(true);
+      const { onboarding_url } = await stripeConnectService.startOnboarding(
+        window.location.origin + "/creator-profile",
+        window.location.origin + "/creator-profile",
+      );
+      window.location.href = onboarding_url;
+    } catch (error) {
+      alert(error.message || "Failed to start Stripe onboarding.");
+      setConnectingStripe(false);
+    }
+  };
+
   const handleAcceptingCollabs = async (accepting) => {
+    setAcceptingCollabs(accepting);
     try {
       await creatorService.updateProfile({ open_to_collab: accepting });
       setCreator((prev) => ({
@@ -172,6 +202,7 @@ function CreatorProfile() {
         open_to_collab: accepting,
       }));
     } catch (error) {
+      setAcceptingCollabs((prev) => !prev);
       console.error("Failed to update collaboration status:", error);
     }
   };
@@ -373,6 +404,21 @@ function CreatorProfile() {
           </div>
         </div>
       </header>
+      {!stripeConnected && (
+        <div className="stripe-connect-banner">
+          <span>
+            Connect your Stripe account to start receiving payments for
+            collaborations.
+          </span>
+          <button
+            className="start-collab-button"
+            disabled={connectingStripe}
+            onClick={handleConnectStripe}
+          >
+            {connectingStripe ? "Connecting…" : "Connect Stripe"}
+          </button>
+        </div>
+      )}
       <input
         type="file"
         accept="image/*"

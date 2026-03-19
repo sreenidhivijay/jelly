@@ -48,6 +48,7 @@ import CreatorPortfolioUploadPage from './pages/CreatorPortfolioUploadPage';
 import CreatorApprovedPage from './pages/CreatorApprovedPage';
 import CreatorDashboardPage from './pages/CreatorDashboardPage';
 import CompletedTasksPage from './pages/CompletedTasksPage';
+import EmailVerificationPage from './pages/EmailVerificationPage';
 
 
 function App() {
@@ -63,6 +64,7 @@ function App() {
           <Route path="/signup/brand/terms" element={<BrandTerms />} />
           <Route path="/signup/creator" element={<CreatorRegistration />} />
           <Route path="/signup/creator/terms" element={<CreatorTerms />} />
+          <Route path="/verify-email" element={<EmailVerificationPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/creator-profile" element={<CreatorProfile />} />
           <Route path="/brand-profile" element={<BrandProfile />} />
