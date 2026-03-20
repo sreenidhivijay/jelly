@@ -11,6 +11,8 @@ const subscriptionService = {
       reels: customCounts?.Reel || 0,
       posts: customCounts?.Post || 0,
       stories: customCounts?.Story || 0,
+      success_url: `${window.location.origin}/signup/business/success`,
+      cancel_url: `${window.location.origin}/signup/business/subscription-tiers`,
     });
   },
 
@@ -18,8 +20,21 @@ const subscriptionService = {
     return api.get("/subscriptions/me");
   },
 
+  async updateSubscription(tierName, customCounts) {
+    return api.put("/subscriptions/me", {
+      tier: tierName,
+      reels: customCounts?.Reel || 0,
+      posts: customCounts?.Post || 0,
+      stories: customCounts?.Story || 0,
+    });
+  },
+
   async cancelSubscription() {
-    return api.delete("/subscriptions/me");
+    return api.post("/subscriptions/me/cancel");
+  },
+
+  async reactivateSubscription() {
+    return api.post("/subscriptions/me/reactivate");
   },
 };
 

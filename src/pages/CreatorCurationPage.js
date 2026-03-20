@@ -95,7 +95,7 @@ function CreatorCurationPage() {
         </section>
 
         <button type="submit" className="continue-button" disabled={uploading}>
-          {uploading ? "Uploading…" : "Submit for Review"}
+          {uploading ? "Uploading..." : "Submit for Review"}
         </button>
       </form>
     </div>

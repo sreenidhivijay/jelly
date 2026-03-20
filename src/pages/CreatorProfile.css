@@ -450,6 +450,22 @@
   cursor: pointer;
 }
 
+.stripe-connect-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 24px;
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  border-radius: 16px;
+}
+
+.stripe-connect-banner span {
+  font-size: 0.95rem;
+  color: #5d4037;
+}
+
 .profile-photo-modal {
   position: fixed;
   inset: 0;

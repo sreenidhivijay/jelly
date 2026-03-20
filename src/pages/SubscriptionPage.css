@@ -1,0 +1,172 @@
+.subscription-page {
+  max-width: 640px;
+  margin: 40px auto 120px;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.subscription-header {
+  text-align: center;
+}
+
+.subscription-header .eyebrow {
+  text-transform: uppercase;
+  color: #888;
+  font-weight: 600;
+  letter-spacing: 1px;
+  font-size: 13px;
+}
+
+.subscription-header h2 {
+  font-size: 28px;
+  margin: 8px 0 12px;
+}
+
+.subscription-header p {
+  margin: 0;
+  color: rgba(35, 22, 31, 0.66);
+}
+
+.subscription-error {
+  text-align: center;
+  color: #c62828;
+  background: #ffebee;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-size: 14px;
+  margin: 0;
+}
+
+.subscription-card {
+  background: #fff;
+  border: 1px solid rgba(26, 12, 21, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(26, 12, 21, 0.06);
+  padding: 28px;
+}
+
+.subscription-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.subscription-card-header h3 {
+  font-size: 22px;
+  margin: 0 0 8px;
+}
+
+.subscription-status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.subscription-status.active {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.subscription-status.canceled {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.subscription-price {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1c0f19;
+}
+
+.subscription-details {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-top: 1px solid rgba(26, 12, 21, 0.08);
+  padding-top: 20px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detail-label {
+  font-size: 14px;
+  color: rgba(35, 22, 31, 0.55);
+}
+
+.detail-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1c0f19;
+}
+
+.subscription-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.outline-button.success {
+  color: #2e7d32;
+  border-color: #2e7d32 !important;
+}
+
+.outline-button.success:hover {
+  background: #e8f5e9;
+}
+
+.outline-button.danger {
+  color: #c62828;
+  border-color: #c62828 !important;
+}
+
+.outline-button.danger:hover {
+  background: #ffebee;
+}
+
+.cancel-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(18, 10, 16, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+}
+
+.cancel-confirm-dialog {
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px;
+  max-width: 420px;
+  width: calc(100% - 48px);
+  box-shadow: 0 24px 48px rgba(26, 12, 21, 0.15);
+}
+
+.cancel-confirm-dialog h3 {
+  margin: 0 0 12px;
+  font-size: 20px;
+}
+
+.cancel-confirm-dialog p {
+  margin: 0 0 24px;
+  color: rgba(35, 22, 31, 0.66);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.cancel-confirm-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}

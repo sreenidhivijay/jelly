@@ -11,6 +11,7 @@ import {
 } from "../utils/storageKeys";
 import { signaturePackages } from "../data/signaturePackages";
 import creatorService from "../services/creatorService";
+import stripeConnectService from "../services/stripeConnectService";
 
 const recentCollaborations = [
   {
@@ -77,12 +78,11 @@ const getAvailableSignaturePackages = () => {
 function CreatorProfile() {
   const [creator, setCreator] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [acceptingCollabs, setAcceptingCollabs] = useState(true);
   const [mediaKitLink, setMediaKitLink] = useState("");
   const [rateCardLink, setRateCardLink] = useState("");
-  const [blockInvites, setBlockInvites] = useState(false);
   const [blockStart, setBlockStart] = useState("");
   const [blockEnd, setBlockEnd] = useState("");
+  const [acceptingCollabs, setAcceptingCollabs] = useState(true);
   const [incomingRequests, setIncomingRequests] = useState(
     initialIncomingRequests,
   );
@@ -92,21 +92,29 @@ function CreatorProfile() {
   const [bio, setBio] = useState("");
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const fileInputRef = useRef(null);
-  const [introVideoUrl, setIntroVideoUrl] = useState(null);
-  const [portfolioUrls, setPortfolioUrls] = useState([]);
+  const [stripeConnected, setStripeConnected] = useState(true);
+  const [connectingStripe, setConnectingStripe] = useState(false);
+
+  const blockInvites = creator?.blackouts?.length > 0;
 
   useEffect(() => {
     Promise.all([
       creatorService.getProfile().then((data) => {
         setCreator(data);
         if (data.bio) setBio(data.bio);
+        if (data.media_kit_url) setMediaKitLink(data.media_kit_url);
+        if (data.rate_card_url) setRateCardLink(data.rate_card_url);
+        if (data.open_to_collab !== undefined)
+          setAcceptingCollabs(data.open_to_collab);
       }),
-      creatorService.getIntroVideo().then(({ presigned_url }) => {
-        setIntroVideoUrl(presigned_url);
-      }),
-      creatorService.getPortfolio().then((data) => {
-        setPortfolioUrls(data.files || []);
-      }),
+      stripeConnectService
+        .getStatus()
+        .then(({ connected }) => {
+          setStripeConnected(connected);
+        })
+        .catch(() => {
+          setStripeConnected(false);
+        }),
     ]).finally(() => setLoading(false));
   }, []);
 
@@ -162,15 +170,51 @@ function CreatorProfile() {
     }, 500);
   };
 
-  const handleToggleBlock = () => {
+  const handleConnectStripe = async () => {
+    try {
+      setConnectingStripe(true);
+      const { onboarding_url } = await stripeConnectService.startOnboarding(
+        window.location.origin + "/creator-profile",
+        window.location.origin + "/creator-profile",
+      );
+      window.location.href = onboarding_url;
+    } catch (error) {
+      alert(error.message || "Failed to start Stripe onboarding.");
+      setConnectingStripe(false);
+    }
+  };
+
+  const handleAcceptingCollabs = async (accepting) => {
+    setAcceptingCollabs(accepting);
+    try {
+      await creatorService.updateProfile({ open_to_collab: accepting });
+      setCreator((prev) => ({
+        ...prev,
+        open_to_collab: accepting,
+      }));
+    } catch (error) {
+      setAcceptingCollabs((prev) => !prev);
+      console.error("Failed to update collaboration status:", error);
+    }
+  };
+
+  const handleToggleBlock = async () => {
     if (!blockStart || !blockEnd) {
       return;
     }
-    setBlockInvites(true);
+    const blockout = await creatorService.blockInvites(blockStart, blockEnd);
+    setCreator((prev) => ({
+      ...prev,
+      blackouts: [blockout],
+    }));
   };
 
-  const handleClearBlock = () => {
-    setBlockInvites(false);
+  const handleClearBlock = async () => {
+    await creatorService.clearBlockInvites(creator.blackouts[0].id);
+    setCreator((prev) => ({
+      ...prev,
+      blackouts: [],
+    }));
     setBlockStart("");
     setBlockEnd("");
   };
@@ -180,6 +224,17 @@ function CreatorProfile() {
   };
 
   const handleCloseModal = () => setIsPhotoModalOpen(false);
+
+  const handleSaveLinks = async () => {
+    try {
+      await creatorService.updateProfile({
+        media_kit_url: mediaKitLink,
+        rate_card_url: rateCardLink,
+      });
+    } catch (error) {
+      console.error("Failed to save links:", error);
+    }
+  };
 
   const handlePhotoUpload = async (event) => {
     const file = event.target.files?.[0];
@@ -326,20 +381,35 @@ function CreatorProfile() {
             <button
               type="button"
               className={acceptingCollabs ? "active" : ""}
-              onClick={() => setAcceptingCollabs(true)}
+              onClick={() => handleAcceptingCollabs(true)}
             >
               Yes
             </button>
             <button
               type="button"
               className={!acceptingCollabs ? "active" : ""}
-              onClick={() => setAcceptingCollabs(false)}
+              onClick={() => handleAcceptingCollabs(false)}
             >
               No
             </button>
           </div>
         </div>
       </header>
+      {!stripeConnected && (
+        <div className="stripe-connect-banner">
+          <span>
+            Connect your Stripe account to start receiving payments for
+            collaborations.
+          </span>
+          <button
+            className="start-collab-button"
+            disabled={connectingStripe}
+            onClick={handleConnectStripe}
+          >
+            {connectingStripe ? "Connecting..." : "Connect Stripe"}
+          </button>
+        </div>
+      )}
       <input
         type="file"
         accept="image/*"
@@ -475,7 +545,9 @@ function CreatorProfile() {
             />
           </label>
         </div>
-        <button className="save-button">Save links</button>
+        <button className="save-button" onClick={handleSaveLinks}>
+          Save links
+        </button>
       </section>
 
       <section className="invite-availability">
@@ -486,37 +558,41 @@ function CreatorProfile() {
             brands know you are heads-down until you are back.
           </p>
         </div>
-        <div className="availability-grid">
-          <label>
-            Block from
-            <input
-              type="date"
-              value={blockStart}
-              onChange={(event) => setBlockStart(event.target.value)}
-            />
-          </label>
-          <label>
-            Through
-            <input
-              type="date"
-              value={blockEnd}
-              onChange={(event) => setBlockEnd(event.target.value)}
-            />
-          </label>
-        </div>
         {!blockInvites ? (
-          <button
-            className="outline-button"
-            onClick={handleToggleBlock}
-            disabled={!blockStart || !blockEnd}
-          >
-            Pause invites for these dates
-          </button>
+          <>
+            <div className="availability-grid">
+              <label>
+                Block from
+                <input
+                  type="date"
+                  value={blockStart}
+                  onChange={(event) => setBlockStart(event.target.value)}
+                />
+              </label>
+              <label>
+                Through
+                <input
+                  type="date"
+                  value={blockEnd}
+                  onChange={(event) => setBlockEnd(event.target.value)}
+                />
+              </label>
+            </div>
+            <button
+              className="outline-button"
+              onClick={handleToggleBlock}
+              disabled={!blockStart || !blockEnd}
+            >
+              Pause invites for these dates
+            </button>
+          </>
         ) : (
           <div className="active-block">
             <span>
-              Blocking new invites from {blockStart || "—"} to {blockEnd || "—"}
-              . You will still finish existing campaigns.
+              Blocking new invites from{" "}
+              {creator.blackouts[0]?.start_date || "—"} to{" "}
+              {creator.blackouts[0]?.end_date || "—"}. You will still finish
+              existing campaigns.
             </span>
             <button className="start-collab-button" onClick={handleClearBlock}>
               Resume invites

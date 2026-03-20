@@ -1,0 +1,17 @@
+{
+  "creator": {
+    "id": 2,
+    "email": "creator@test.com",
+    "role": "creator",
+    "name": "Test Creator",
+    "bio": "Content creator for testing",
+    "city": "Los Angeles"
+  },
+  "brand": {
+    "id": 1,
+    "email": "brand@test.com",
+    "role": "brand",
+    "company_name": "Acme Corp",
+    "website": "https://acme.co"
+  }
+}
