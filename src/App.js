@@ -24,7 +24,7 @@ import FeedbackPage from "./pages/FeedbackPage";
 import CreatorRequestsPage from "./pages/CreatorRequestsPage";
 import CreatorAppointmentsPage from "./pages/CreatorAppointmentsPage";
 
-import { UserProvider, useUser } from "./components/UserContext";
+import { UserProvider } from "./components/UserContext";
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import YourCampaigns from "./pages/YourCampaigns";
@@ -51,6 +51,10 @@ import CompletedTasksPage from "./pages/CompletedTasksPage";
 import EmailVerificationPage from "./pages/EmailVerificationPage";
 import SubscriptionPage from "./pages/SubscriptionPage";
 import CreatorPortfolioPage from "./pages/CreatorPortfolioPage";
+import AdminRoute from "./components/AdminRoute";
+import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
+import AdminSubmissionsPage from "./pages/admin/AdminSubmissionsPage";
+import AdminEventsPage from "./pages/admin/AdminEventsPage";
 
 function AppRouter() {
   return (
@@ -161,6 +165,11 @@ function AppRouter() {
           path="/subscription/modify"
           element={<SubscriptionTiersPage modify />}
         />
+        <Route path="/admin" element={<AdminRoute />}>
+          <Route index element={<AdminDashboardPage />} />
+          <Route path="submissions" element={<AdminSubmissionsPage />} />
+          <Route path="events" element={<AdminEventsPage />} />
+        </Route>
       </Routes>
     </Router>
   );

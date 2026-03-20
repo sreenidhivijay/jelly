@@ -15,7 +15,10 @@ function Header() {
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (profileMenuRef.current && !profileMenuRef.current.contains(e.target)) {
+      if (
+        profileMenuRef.current &&
+        !profileMenuRef.current.contains(e.target)
+      ) {
         setProfileMenuOpen(false);
       }
     };
@@ -148,78 +151,124 @@ function Header() {
           </>
         ) : (
           <li className="nav-item profile-menu-wrapper" ref={profileMenuRef}>
-              <button
-                type="button"
-                className="profile-icon-btn"
-                data-tooltip="Open user navigation menu"
-                onClick={() => setProfileMenuOpen((prev) => !prev)}
-              >
-                <FontAwesomeIcon icon={faUser} className="profile-icon" />
-              </button>
-              {isProfileMenuOpen && (
-                <ul className="profile-dropdown">
-                  <li>
-                    <Link
-                      to={user.role === "creator" ? "/creator-profile" : "/brand-profile"}
-                      className="dropdown-item"
-                      onClick={() => setProfileMenuOpen(false)}
-                    >
-                      Profile
-                    </Link>
-                  </li>
-                  {user.role === "creator" && (
-                    <>
-                      <li>
-                        <Link to="/creator-dashboard" className="dropdown-item" onClick={() => setProfileMenuOpen(false)}>
-                          Dashboard
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/creator-appointments" className="dropdown-item" onClick={() => setProfileMenuOpen(false)}>
-                          Appointments
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/creator-portfolio" className="dropdown-item" onClick={() => setProfileMenuOpen(false)}>
-                          Portfolio
-                        </Link>
-                      </li>
-                    </>
-                  )}
-                  {user.role === "brand" && (
-                    <>
-                      <li>
-                        <Link to="/your-campaigns" className="dropdown-item" onClick={() => setProfileMenuOpen(false)}>
-                          Your Campaigns
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/your-creators" className="dropdown-item" onClick={() => setProfileMenuOpen(false)}>
-                          Your Creators
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/subscription" className="dropdown-item" onClick={() => setProfileMenuOpen(false)}>
-                          Subscription
-                        </Link>
-                      </li>
-                    </>
-                  )}
-                  <li className="dropdown-divider" />
-                  <li>
-                    <button
-                      className="dropdown-item"
-                      onClick={() => {
-                        setProfileMenuOpen(false);
-                        handleLogout();
-                      }}
-                    >
-                      Log Out
-                    </button>
-                  </li>
-                </ul>
-              )}
-            </li>
+            <button
+              type="button"
+              className="profile-icon-btn"
+              data-tooltip="Open user navigation menu"
+              onClick={() => setProfileMenuOpen((prev) => !prev)}
+            >
+              <FontAwesomeIcon icon={faUser} className="profile-icon" />
+            </button>
+            {isProfileMenuOpen && (
+              <ul className="profile-dropdown">
+                {user.role === "admin" && (
+                  <>
+                    <li>
+                      <Link
+                        to="/admin"
+                        className="dropdown-item"
+                        onClick={() => setProfileMenuOpen(false)}
+                      >
+                        Admin Dashboard
+                      </Link>
+                    </li>
+                  </>
+                )}
+                {user.role === "creator" && (
+                  <>
+                    <li>
+                      <Link
+                        to="/creator-profile"
+                        className="dropdown-item"
+                        onClick={() => setProfileMenuOpen(false)}
+                      >
+                        Profile
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/creator-dashboard"
+                        className="dropdown-item"
+                        onClick={() => setProfileMenuOpen(false)}
+                      >
+                        Dashboard
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/creator-appointments"
+                        className="dropdown-item"
+                        onClick={() => setProfileMenuOpen(false)}
+                      >
+                        Appointments
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/creator-portfolio"
+                        className="dropdown-item"
+                        onClick={() => setProfileMenuOpen(false)}
+                      >
+                        Portfolio
+                      </Link>
+                    </li>
+                  </>
+                )}
+                {user.role === "brand" && (
+                  <>
+                    <li>
+                      <Link
+                        to="/brand-profile"
+                        className="dropdown-item"
+                        onClick={() => setProfileMenuOpen(false)}
+                      >
+                        Profile
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/your-campaigns"
+                        className="dropdown-item"
+                        onClick={() => setProfileMenuOpen(false)}
+                      >
+                        Your Campaigns
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/your-creators"
+                        className="dropdown-item"
+                        onClick={() => setProfileMenuOpen(false)}
+                      >
+                        Your Creators
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/subscription"
+                        className="dropdown-item"
+                        onClick={() => setProfileMenuOpen(false)}
+                      >
+                        Subscription
+                      </Link>
+                    </li>
+                  </>
+                )}
+                <li className="dropdown-divider" />
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => {
+                      setProfileMenuOpen(false);
+                      handleLogout();
+                    }}
+                  >
+                    Log Out
+                  </button>
+                </li>
+              </ul>
+            )}
+          </li>
         )}
       </ul>
 

@@ -1,7 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'motion/react';
 
 import './HomePage.css';
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 32 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
+
+const staggerItem = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' } },
+};
 
 const heroStats = [
   { label: 'Active partnerships', value: '240+', detail: 'running each month' },
@@ -49,7 +65,13 @@ const paletteNotes = [
 function HomePage() {
   return (
     <div className="homepage">
-      <section className="hero-banner">
+      <motion.section
+        className="hero-banner"
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.15 }}
+      >
         <div className="hero-media">
           <img
             src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1800&q=80"
@@ -72,19 +94,31 @@ function HomePage() {
               Find creators
             </Link>
           </div>
-          <div className="hero-stat-grid">
+          <motion.div
+            className="hero-stat-grid"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+          >
             {heroStats.map((stat) => (
-              <article key={stat.label}>
+              <motion.article key={stat.label} variants={staggerItem}>
                 <span className="hero-stat__value">{stat.value}</span>
                 <span className="hero-stat__label">{stat.label}</span>
                 <small>{stat.detail}</small>
-              </article>
+              </motion.article>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="moodboard-callout">
+      <motion.section
+        className="moodboard-callout"
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.15 }}
+      >
         <div className="moodboard-copy">
           <p className="eyebrow">How Jelly helps</p>
           <h2>Build a repeatable content engine</h2>
@@ -114,20 +148,32 @@ function HomePage() {
             Request matches
           </Link>
         </div>
-      </section>
+      </motion.section>
 
       <section className="runway-grid">
-        <div className="section-intro">
+        <motion.div
+          className="section-intro"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+        >
           <p className="eyebrow">What you get</p>
           <h3>Consistency without the chaos</h3>
           <p>
             Jelly helps both sides stay consistent with better matching, clearer deliverables, and timelines that keep
             campaigns moving.
           </p>
-        </div>
-        <div className="product-grid">
+        </motion.div>
+        <motion.div
+          className="product-grid"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+        >
           {studioHighlights.map((item) => (
-            <article className="product-card" key={item.title}>
+            <motion.article className="product-card" key={item.title} variants={staggerItem}>
               <div className="product-tag">{item.tag}</div>
               <img src={item.image} alt={item.title} loading="lazy" />
               <div className="product-card__info">
@@ -137,12 +183,18 @@ function HomePage() {
                   Learn more
                 </Link>
               </div>
-            </article>
+            </motion.article>
           ))}
-        </div>
+        </motion.div>
       </section>
 
-      <section className="newsletter-panel">
+      <motion.section
+        className="newsletter-panel"
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.15 }}
+      >
         <div className="section-intro">
           <p className="eyebrow">Get updates</p>
           <h3>New opportunities for creators and new campaign openings for businesses.</h3>
@@ -159,7 +211,7 @@ function HomePage() {
             </button>
           </div>
         </form>
-      </section>
+      </motion.section>
     </div>
   );
 }

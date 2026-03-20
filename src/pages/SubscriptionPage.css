@@ -1,6 +1,6 @@
 .subscription-page {
   max-width: 640px;
-  margin: 80px auto 120px;
+  margin: 40px auto 120px;
   padding: 0 24px;
   display: flex;
   flex-direction: column;
@@ -27,6 +27,16 @@
 .subscription-header p {
   margin: 0;
   color: rgba(35, 22, 31, 0.66);
+}
+
+.subscription-error {
+  text-align: center;
+  color: #c62828;
+  background: #ffebee;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-size: 14px;
+  margin: 0;
 }
 
 .subscription-card {

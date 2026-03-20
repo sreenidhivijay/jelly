@@ -29,13 +29,18 @@ function SubscriptionPage() {
   const [cancelling, setCancelling] = useState(false);
   const [reactivating, setReactivating] = useState(false);
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     subscriptionService
       .getMySubscription()
-      .then((data) => setSubscription(data))
-      .catch(() => setSubscription(null))
-      .finally(() => setLoading(false));
+      .then((data) => {
+        setSubscription(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message || "Failed to load subscription.");
+      });
   }, []);
 
   const handleCancel = async () => {
@@ -65,26 +70,40 @@ function SubscriptionPage() {
     }
   };
 
-  if (loading) {
+  if (loading || error) {
     return (
       <div className="subscription-page">
         <header className="subscription-header">
           <span className="eyebrow">Subscription</span>
           <h2>Manage your plan</h2>
         </header>
+        {error && <p className="subscription-error">{error}</p>}
         <div className="subscription-card">
-          <div
-            className="skeleton skeleton-line"
-            style={{ width: 160, height: 20 }}
-          />
-          <div
-            className="skeleton skeleton-line"
-            style={{ width: 100, height: 32, marginTop: 12 }}
-          />
-          <div
-            className="skeleton skeleton-line"
-            style={{ width: 240, height: 14, marginTop: 12 }}
-          />
+          <div className="subscription-card-header">
+            <div>
+              <div className="skeleton skeleton-line" style={{ width: 100, height: 22 }} />
+              <div className="skeleton skeleton-line" style={{ width: 72, height: 24, marginTop: 8, borderRadius: 20 }} />
+            </div>
+            <div className="skeleton skeleton-line" style={{ width: 120, height: 28 }} />
+          </div>
+          <div className="subscription-details">
+            <div className="detail-row">
+              <div className="skeleton skeleton-line" style={{ width: 80, height: 14 }} />
+              <div className="skeleton skeleton-line" style={{ width: 180, height: 14 }} />
+            </div>
+            <div className="detail-row">
+              <div className="skeleton skeleton-line" style={{ width: 110, height: 14 }} />
+              <div className="skeleton skeleton-line" style={{ width: 140, height: 14 }} />
+            </div>
+            <div className="detail-row">
+              <div className="skeleton skeleton-line" style={{ width: 120, height: 14 }} />
+              <div className="skeleton skeleton-line" style={{ width: 140, height: 14 }} />
+            </div>
+            <div className="detail-row">
+              <div className="skeleton skeleton-line" style={{ width: 90, height: 14 }} />
+              <div className="skeleton skeleton-line" style={{ width: 140, height: 14 }} />
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -137,15 +156,42 @@ function SubscriptionPage() {
             <span className="detail-label">Content</span>
             <span className="detail-value">
               {isCustom
-                ? `${subscription.reels || 0} Reels, ${subscription.posts || 0} Posts, ${subscription.stories || 0} Stories`
+                ? `${(subscription.reels || 0) + (subscription.posts || 0) + (subscription.stories || 0)} pieces per month`
                 : tier.content}
             </span>
+          </div>
+          <div className="detail-row">
+            <span className="detail-label">Reels</span>
+            <span className="detail-value">{subscription.reels || 0}</span>
+          </div>
+          <div className="detail-row">
+            <span className="detail-label">Posts</span>
+            <span className="detail-value">{subscription.posts || 0}</span>
+          </div>
+          <div className="detail-row">
+            <span className="detail-label">Stories</span>
+            <span className="detail-value">{subscription.stories || 0}</span>
           </div>
           {subscription.current_period_end && (
             <div className="detail-row">
               <span className="detail-label">Next billing date</span>
               <span className="detail-value">
                 {new Date(subscription.current_period_end).toLocaleDateString(
+                  "en-US",
+                  {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  },
+                )}
+              </span>
+            </div>
+          )}
+          {subscription.next_payment_due && (
+            <div className="detail-row">
+              <span className="detail-label">Next payment due</span>
+              <span className="detail-value">
+                {new Date(subscription.next_payment_due).toLocaleDateString(
                   "en-US",
                   {
                     year: "numeric",
