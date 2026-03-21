@@ -9,7 +9,7 @@ function HowItWorksPage() {
 
   const handleContinue = (event) => {
     event.preventDefault();
-    navigate('/signup/business/content-sku', { state: onboardingState });
+    navigate('/signup/business/brand-brief', { state: onboardingState });
   };
 
   return (

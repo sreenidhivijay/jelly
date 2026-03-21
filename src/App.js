@@ -39,6 +39,8 @@ import PostingFrequencyPage from "./pages/PostingFrequencyPage";
 import HowItWorksPage from "./pages/HowItWorksPage";
 import SubscriptionTiersPage from "./pages/SubscriptionTiersPage";
 import ContentSKUPage from "./pages/ContentSKUPage";
+import BrandBriefTemplatePage from "./pages/BrandBriefTemplatePage";
+import BrandBriefCustomizePage from "./pages/BrandBriefCustomizePage";
 import SignupSuccessPage from "./pages/SignupSuccessPage";
 import CreatorNichePage from "./pages/CreatorNichePage";
 import CreatorHowItWorksPage from "./pages/CreatorHowItWorksPage";
@@ -91,6 +93,14 @@ function AppRouter() {
         <Route
           path="/signup/business/subscription-tiers"
           element={<SubscriptionTiersPage />}
+        />
+        <Route
+          path="/signup/business/brand-brief"
+          element={<BrandBriefTemplatePage />}
+        />
+        <Route
+          path="/signup/business/brand-brief/customize"
+          element={<BrandBriefCustomizePage />}
         />
         <Route
           path="/signup/business/content-sku"
