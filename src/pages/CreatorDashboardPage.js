@@ -362,6 +362,13 @@ function CreatorDashboardPage() {
               <div>⏰ {task.deadline}</div>
               <div style={{ marginTop: '6px', color: '#888' }}>✨ {task.skills}</div>
             </div>
+            {task.referenceImages && task.referenceImages.length > 0 && (
+              <div className="pt-inspo-row">
+                {task.referenceImages.map((img) => (
+                  <img key={img.id} src={img.url} alt="Inspiration" />
+                ))}
+              </div>
+            )}
             <div className="pt-actions">
               <button className="btn-decline" onClick={(e) => { e.stopPropagation(); handleDecline(task.id); }}>Decline</button>
               <button className="btn-accept" onClick={(e) => { e.stopPropagation(); handleAccept(task); }}>Accept</button>
@@ -401,6 +408,15 @@ function CreatorDashboardPage() {
               <strong>Job Description:</strong>
               <p style={{ marginTop: '4px' }}>{selectedTask.description || 'No additional details provided.'}</p>
             </div>
+
+            {!isAcceptedTask(selectedTask) && selectedTask.referenceImages && selectedTask.referenceImages.length > 0 && (
+              <div style={{ marginTop: '24px' }}>
+                <BusinessReferenceImages
+                  images={selectedTask.referenceImages}
+                  brandName={selectedTask.brand}
+                />
+              </div>
+            )}
 
             {isAcceptedTask(selectedTask) && (
               <div className="accepted-task-sections">
