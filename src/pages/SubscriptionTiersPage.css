@@ -4,19 +4,19 @@
   margin: 0 auto;
 }
 
-.onboarding-header {
+.subscription-tiers-page .onboarding-header {
   text-align: center;
   margin-bottom: 4rem;
 }
 
-.onboarding-header .eyebrow {
+.subscription-tiers-page .onboarding-header .eyebrow {
   text-transform: uppercase;
   color: #888;
   font-weight: 600;
   letter-spacing: 1px;
 }
 
-.onboarding-header h2 {
+.subscription-tiers-page .onboarding-header h2 {
   font-size: 2.5rem;
   margin: 0.5rem 0;
 }

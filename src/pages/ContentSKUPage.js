@@ -43,6 +43,18 @@ function ContentSKUPage() {
   const state = location.state || {};
   const niche = state.niche || 'Fashion';
 
+  // The tier is now passed from the SubscriptionTiersPage
+  const { tier } = state;
+
+  const getLimit = (type) => {
+    if (!tier) return Infinity; // No limits if no tier is selected (custom build flow)
+    if (tier.name === 'Basic') return { Reel: 1, Post: 2, Story: 3 }[type] || 0;
+    if (tier.name === 'Mid') return { Reel: 4, Post: 8, Story: 12 }[type] || 0;
+    if (tier.name === 'Pro') return { Reel: 10, Post: 15, Story: 20 }[type] || 0;
+    if (tier.name === 'Customized' && tier.customCounts) return tier.customCounts[type] || 0;
+    return Infinity;
+  };
+
   // State to track counts: { Reel: { 'SKU1': 2 }, Post: { 'SKU2': 1 } }
   const [selections, setSelections] = useState({ Reel: {}, Post: {}, Story: {} });
 
@@ -56,6 +68,15 @@ function ContentSKUPage() {
 
     if (newCount < 0) return;
 
+    // Check total limit for this type if a tier is selected
+    const limit = getLimit(type);
+    const currentTotal = Object.values(currentTypeSelections).reduce((a, b) => a + b, 0);
+
+    if (delta > 0 && currentTotal >= limit) {
+      // Silently prevent adding more than the limit
+      return;
+    }
+
     setSelections({
       ...selections,
       [type]: {
@@ -67,28 +88,51 @@ function ContentSKUPage() {
 
   const handleContinue = (event) => {
     event.preventDefault();
-    // Navigate to subscription tiers, passing the selections along with existing state
-    navigate('/signup/business/subscription-tiers', { state: { ...state, selections } });
+    // If coming from a tier selection, this is the final step before success.
+    // If building a custom plan, navigate to the tiers page.
+    if (tier) {
+      navigate('/signup/business/success', { state: { ...state, selections } });
+    } else {
+      navigate('/signup/business/subscription-tiers', { state: { ...state, selections } });
+    }
   };
 
   return (
     <div className="brand-onboarding-container">
       <header className="onboarding-header">
-        <span className="eyebrow">Customize Your Plan</span>
-        <h2>Choose Your Content Mix</h2>
-        <p>Select the types and styles of content you need for the {niche} niche. This will create a custom plan for you.</p>
+        {tier ? (
+          <>
+            <span className="eyebrow">Final Step</span>
+            <h2>Choose Your Content Styles</h2>
+            <p>Based on your '{tier.name}' plan for the {niche} niche.</p>
+          </>
+        ) : (
+          <>
+            <span className="eyebrow">Customize Your Plan</span>
+            <h2>Choose Your Content Mix</h2>
+            <p>Select the types and styles of content you need for the {niche} niche. This will create a custom plan for you.</p>
+          </>
+        )}
       </header>
 
       <form className="brand-onboarding-form" onSubmit={handleContinue}>
         {contentTypes.map((type) => {
+          const limit = getLimit(type);
+          if (limit === 0 && tier) return null;
+
           const currentTypeSelections = selections[type] || {};
           const currentTotal = Object.values(currentTypeSelections).reduce((a, b) => a + b, 0);
           const options = skuOptions[type] || [];
 
           return (
             <section key={type}>
-              <h3>{type} Options ({currentTotal} selected)</h3>
-              <p>Choose the {type.toLowerCase()}s you want this month. You can select multiple of the same style.</p>
+              <h3>{type} Options ({currentTotal} {limit !== Infinity ? `of ${limit}` : ''} selected)</h3>
+              <p>
+                {limit !== Infinity
+                  ? `Choose ${limit} ${type.toLowerCase()}(s) you want this month. You can select multiple of the same style.`
+                  : `Choose the ${type.toLowerCase()}s you want this month. You can select multiple of the same style.`
+                }
+              </p>
 
               <div className="sku-grid">
                 {options.map((option) => {
@@ -105,10 +149,13 @@ function ContentSKUPage() {
                           <button type="button" className="sku-btn" onClick={() => updateSelection(type, option, 1)}>+</button>
                         </div>
                       </div>
-                      <div>
+                      <div style={{ padding: '0 50px' }}>
                         <video 
                           src={exampleVideo} 
-                          controls 
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
                           style={{ width: '100%', height: '350px', borderRadius: '8px', objectFit: 'cover', backgroundColor: '#f0f0f0' }} 
                         />
                       </div>
@@ -120,7 +167,7 @@ function ContentSKUPage() {
           );
         })}
         
-        <button type="submit" className="continue-button">Continue</button>
+        <button type="submit" className="continue-button">{tier ? 'Complete Onboarding' : 'Continue'}</button>
       </form>
     </div>
   );

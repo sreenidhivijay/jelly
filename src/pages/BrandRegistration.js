@@ -3,16 +3,15 @@ import { useNavigate } from "react-router-dom";
 import "./BrandRegistration.css";
 
 const nicheOptions = [
+  "Fashion/Lifestyle",
+  "Wellness",
   "Food",
-  "Travel",
-  "Fashion",
-  "Makeup",
   "Tech",
-  "Lifestyle",
+  "Beauty/Makeup",
 ];
 
 function BrandRegistration() {
-  const [selectedNiche, setSelectedNiche] = useState("Food");
+  const [selectedNiche, setSelectedNiche] = useState("Fashion/Lifestyle");
   const navigate = useNavigate();
 
   const handleContinue = (event) => {

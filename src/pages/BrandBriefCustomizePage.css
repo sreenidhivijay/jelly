@@ -1,0 +1,513 @@
+.brief-customize-container {
+  max-width: 900px;
+}
+
+/* ── Inline document ── */
+.inline-doc {
+  padding: 40px 48px;
+  border: 1px solid rgba(58, 39, 53, 0.1);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  margin-bottom: 24px;
+}
+
+.inline-doc-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--coquette-soft-black);
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+input.inline-edit.inline-doc-title {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.inline-doc-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.inline-doc-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--coquette-soft-black);
+}
+
+.inline-doc-meta-row strong {
+  flex-shrink: 0;
+}
+
+.inline-doc-divider {
+  border: none;
+  border-top: 1px solid rgba(58, 39, 53, 0.1);
+  margin: 24px 0;
+}
+
+/* ── Sections ── */
+.inline-doc-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inline-doc-section-draggable {
+  padding: 16px;
+  margin: -16px;
+  border-radius: 14px;
+  transition: background 0.2s, opacity 0.2s, box-shadow 0.2s;
+}
+
+.inline-doc-section-draggable:hover {
+  background: rgba(245, 166, 201, 0.03);
+}
+
+.inline-doc-section-draggable.section-dragging {
+  opacity: 0.4;
+  background: rgba(245, 166, 201, 0.1);
+  box-shadow: 0 8px 24px rgba(245, 166, 201, 0.2);
+}
+
+/* Section header with drag handle, number, editable title, remove */
+.inline-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.section-drag-handle {
+  color: rgba(35, 22, 31, 0.2);
+  font-size: 16px;
+  cursor: grab;
+  flex-shrink: 0;
+  user-select: none;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.section-drag-handle:hover {
+  color: var(--coquette-rose);
+}
+
+.inline-section-number {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--coquette-soft-black);
+  flex-shrink: 0;
+}
+
+.inline-section-title-input {
+  font-size: 22px;
+  font-weight: 700;
+  flex: 1;
+}
+
+.inline-section-remove {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: rgba(35, 22, 31, 0.15);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  line-height: 1;
+  transition: color 0.15s, background 0.15s;
+  opacity: 0;
+}
+
+.inline-doc-section-draggable:hover .inline-section-remove {
+  opacity: 1;
+}
+
+.inline-section-remove:hover {
+  color: #e57373;
+  background: rgba(229, 115, 115, 0.1);
+}
+
+/* ── Section body elements ── */
+.inline-doc-heading {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--coquette-soft-black);
+  margin-bottom: 4px;
+}
+
+.inline-doc-subheading {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--coquette-soft-black);
+  margin-bottom: 2px;
+}
+
+.inline-doc-body {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(35, 22, 31, 0.8);
+  line-height: 1.7;
+}
+
+.inline-doc-kv {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--coquette-soft-black);
+}
+
+.inline-doc-kv-label {
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.inline-doc-specs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: 8px;
+}
+
+/* Do's & Don'ts side by side */
+.inline-doc-dos-donts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.inline-doc-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── Inline edit controls ── */
+.inline-edit {
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--coquette-soft-black);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 4px 8px;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+.inline-edit:hover {
+  background: rgba(245, 166, 201, 0.06);
+  border-color: rgba(58, 39, 53, 0.1);
+}
+
+.inline-edit:focus {
+  background: #fff;
+  border-color: var(--coquette-rose);
+  box-shadow: 0 0 0 3px rgba(245, 166, 201, 0.15);
+}
+
+.inline-edit-text {
+  line-height: 1.5;
+}
+
+.inline-edit-paragraph {
+  resize: vertical;
+  min-height: 60px;
+  line-height: 1.7;
+}
+
+.inline-edit-select {
+  appearance: none;
+  cursor: pointer;
+  width: auto;
+  padding-right: 28px;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%231b1018' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+}
+
+.inline-edit-list {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Draggable list ── */
+.inline-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.inline-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.inline-list-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 4px;
+  border-radius: 8px;
+  cursor: grab;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.inline-list-item:hover {
+  background: rgba(245, 166, 201, 0.06);
+}
+
+.inline-list-item.dragging {
+  opacity: 0.5;
+  background: rgba(245, 166, 201, 0.12);
+}
+
+.inline-list-item:active {
+  cursor: grabbing;
+}
+
+.drag-handle {
+  color: rgba(35, 22, 31, 0.25);
+  font-size: 14px;
+  cursor: grab;
+  flex-shrink: 0;
+  user-select: none;
+  padding: 2px;
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.drag-handle:hover {
+  color: var(--coquette-rose);
+}
+
+.inline-list-prefix {
+  flex-shrink: 0;
+  font-size: 13px;
+  line-height: 1;
+  user-select: none;
+}
+
+.inline-list-remove {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: rgba(35, 22, 31, 0.25);
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  line-height: 1;
+  transition: color 0.15s, background 0.15s;
+  opacity: 0;
+}
+
+.inline-list-item:hover .inline-list-remove,
+.inline-concept:hover > .inline-concept-head > .inline-list-remove {
+  opacity: 1;
+}
+
+.inline-list-remove:hover {
+  color: #e57373;
+  background: rgba(229, 115, 115, 0.1);
+}
+
+.inline-list-add {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--coquette-rose);
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+
+.inline-list-add:hover {
+  background: rgba(245, 166, 201, 0.1);
+}
+
+/* ── Concept cards ── */
+.inline-concepts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.inline-concept {
+  padding: 16px;
+  border: 1px solid rgba(58, 39, 53, 0.08);
+  border-radius: 14px;
+  background: rgba(255, 243, 248, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  cursor: grab;
+  transition: background 0.15s, opacity 0.15s, box-shadow 0.15s;
+}
+
+.inline-concept:hover {
+  background: rgba(255, 243, 248, 0.5);
+  box-shadow: 0 4px 12px rgba(245, 166, 201, 0.1);
+}
+
+.inline-concept.dragging {
+  opacity: 0.5;
+  background: rgba(245, 166, 201, 0.15);
+}
+
+.inline-concept-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.inline-concept-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.inline-concept-hooks {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 4px;
+}
+
+.inline-concept-hooks-label {
+  font-size: 13px;
+  color: rgba(35, 22, 31, 0.6);
+  font-weight: 500;
+}
+
+/* ── Insert zone between sections ── */
+.inline-insert-zone {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 12px 0;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* Show on hover anywhere near the zone area */
+.inline-doc:hover .inline-insert-zone {
+  opacity: 1;
+}
+
+.inline-insert-line {
+  flex: 1;
+  height: 1px;
+  background: rgba(58, 39, 53, 0.08);
+  transition: background 0.15s;
+}
+
+.inline-insert-zone:hover .inline-insert-line {
+  background: var(--coquette-rose);
+}
+
+.inline-insert-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(58, 39, 53, 0.15);
+  background: #fff;
+  color: rgba(35, 22, 31, 0.35);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.inline-insert-btn:hover {
+  border-color: var(--coquette-rose);
+  color: var(--coquette-rose);
+  background: rgba(255, 216, 233, 0.1);
+  transform: scale(1.15);
+}
+
+/* ── Add section menu (inline between sections) ── */
+.inline-add-section-menu {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 12px;
+  background: rgba(255, 243, 248, 0.6);
+  border: 1px solid rgba(58, 39, 53, 0.08);
+  border-radius: 12px;
+  animation: fadeIn 0.15s ease;
+}
+
+.inline-add-section-menu-inline {
+  margin-bottom: 12px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.inline-add-section-option {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(58, 39, 53, 0.12);
+  background: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--coquette-soft-black);
+  transition: all 0.15s ease;
+}
+
+.inline-add-section-option:hover {
+  border-color: var(--coquette-rose);
+  background: rgba(255, 216, 233, 0.1);
+  color: var(--coquette-rose);
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .inline-doc {
+    padding: 24px 20px;
+  }
+
+  .inline-doc-title {
+    font-size: 22px;
+  }
+
+  .inline-doc-heading,
+  .inline-section-number,
+  .inline-section-title-input {
+    font-size: 18px;
+  }
+
+  .inline-doc-dos-donts {
+    grid-template-columns: 1fr;
+  }
+
+  .inline-doc-section-draggable {
+    padding: 12px;
+    margin: -12px;
+  }
+}
