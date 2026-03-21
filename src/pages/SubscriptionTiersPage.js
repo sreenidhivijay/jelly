@@ -91,7 +91,11 @@ function SubscriptionTiersPage() {
         price: `$${customPrice}`,
         customCounts,
       };
-      navigate("/signup/business/success", { state: { tier: selectedTier } });
+      if (onboardingState.isManageMode) {
+        navigate("/signup/business/content-sku", { state: { ...onboardingState, tier: selectedTier } });
+      } else {
+        navigate("/signup/business/success", { state: { tier: selectedTier } });
+      }
     } catch (error) {
       alert(error.message || "Failed to subscribe. Please try again.");
     } finally {
