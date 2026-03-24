@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./BrandProfile.css";
 
 const progressCampaigns = [
   {
@@ -189,20 +188,26 @@ export default function BrandTimeline() {
   );
   const [filter, setFilter] = useState("All");
   return (
-    <div className="bp-page">
+    <div className="mx-auto mt-15 mb-35 max-w-[1100px] px-6 max-md:px-4 max-md:pt-6 max-md:pb-15">
       {/* Header */}
-      <div className="bp-header">
-        <div className="bp-header-row">
-          <div className="bp-header-info">
-            <span className="bp-eyebrow">Campaign Timeline</span>
-            <h1>Velvet Petal Boutique</h1>
-            <p>Track your campaign progress and content delivery across months.</p>
+      <div className="mb-9 border-b border-black/8 pb-9">
+        <div className="flex items-center gap-6 max-md:gap-3.5">
+          <div className="flex-1">
+            <span className="text-xs font-semibold uppercase tracking-[0.12em] text-[#666]">
+              Campaign Timeline
+            </span>
+            <h1 className="my-4 text-[32px] font-extrabold tracking-tight text-coquette-soft-black max-md:text-xl">
+              Velvet Petal Boutique
+            </h1>
+            <p className="m-0 py-1.5 text-base leading-relaxed text-black">
+              Track your campaign progress and content delivery across months.
+            </p>
           </div>
         </div>
       </div>
 
       {/* Timeline content */}
-      <div className="timeline-container">
+      <div className="flex flex-col gap-5">
         {(() => {
           const historyByYear = subscriptionHistory.reduce((acc, period) => {
             const year = Number(period.month.split(" ").pop());
@@ -215,40 +220,53 @@ export default function BrandTimeline() {
           return Object.keys(historyByYear)
             .sort((a, b) => b - a)
             .map((year) => (
-              <div key={year} className="timeline-year-group">
-                <h3 className="timeline-year-title">{year}</h3>
-                <div className="timeline-year-cards">
+              <div key={year}>
+                <h3 className="mt-8 mb-4 text-xl font-bold text-[#333] first:mt-0">
+                  {year}
+                </h3>
+                <div className="flex flex-col gap-5">
                   {historyByYear[year].map((period) => (
                     <div
                       key={period.month}
-                      className={`timeline-month-card ${period.isActive ? "active-month" : ""}`}
+                      className={`cursor-pointer overflow-hidden rounded-xl border bg-white ${
+                        period.isActive
+                          ? "border-black shadow-[0_4px_12px_rgba(0,0,0,0.05)]"
+                          : "border-[#eee]"
+                      }`}
                       onClick={() =>
                         setExpandedMonth(
                           expandedMonth === period.month ? null : period.month,
                         )
                       }
-                      style={{ cursor: "pointer" }}
                     >
-                      <div className="month-header">
+                      {/* Month header */}
+                      <div className="flex items-center justify-between border-b border-[#eee] bg-[#f9f9f9] px-6 py-4">
                         <div>
-                          <h3>{period.month}</h3>
+                          <h3 className="m-0 text-[1.1rem] font-semibold">
+                            {period.month}
+                          </h3>
                           <span
-                            className={`month-status ${period.isActive ? "current" : ""}`}
+                            className={`text-[0.85rem] font-semibold uppercase tracking-[0.05em] ${
+                              period.isActive ? "text-[#267060]" : "text-[#888]"
+                            }`}
                           >
                             {period.status}
                           </span>
                         </div>
                         {period.stats && (
-                          <div className="month-summary-pills">
+                          <div className="flex items-center gap-2">
                             {period.stats.map((stat, i) => (
-                              <span key={i} className="summary-pill">
-                                <strong>
+                              <span
+                                key={i}
+                                className="rounded-full border border-black/10 bg-white px-2.5 py-1 text-[0.8rem] text-[#666]"
+                              >
+                                <strong className="text-black">
                                   {stat.used}/{stat.total}
                                 </strong>{" "}
                                 {stat.type}
                               </span>
                             ))}
-                            <span className="expand-icon">
+                            <span className="ml-2 w-5 text-center text-[1.2rem] text-[#999]">
                               {expandedMonth === period.month ? "−" : "+"}
                             </span>
                           </div>
@@ -256,70 +274,73 @@ export default function BrandTimeline() {
                       </div>
 
                       {expandedMonth === period.month && period.details && (
-                        <div
-                          className="month-details-wrapper"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <div className="timeline-filters">
+                        <div onClick={(e) => e.stopPropagation()}>
+                          {/* Filters */}
+                          <div className="flex gap-2 bg-white px-6 pt-3">
                             {["All", "Completed", "Pending"].map((f) => (
                               <button
                                 key={f}
-                                className={`filter-pill ${filter === f ? "active" : ""}`}
+                                className={`cursor-pointer rounded-[20px] border px-3.5 py-1.5 text-[0.8rem] transition-all duration-200 ${
+                                  filter === f
+                                    ? "border-black bg-black text-white"
+                                    : "border-[#eee] bg-white text-[#666]"
+                                }`}
                                 onClick={() => setFilter(f)}
                               >
                                 {f}
                               </button>
                             ))}
                           </div>
-                          <div className="month-details-grid">
-                            {["Reels", "Posts", "Stories"].map((type) => (
-                              <div key={type} className="detail-column">
-                                <h4>{type}</h4>
-                                <div className="detail-list">
-                                  {(period.details[type] || []).filter(
-                                    (item) => {
-                                      if (filter === "All") return true;
-                                      const isCompleted = [
-                                        "Posted",
-                                        "Completed",
-                                        "Delivered",
-                                      ].includes(item.status);
-                                      return filter === "Completed"
-                                        ? isCompleted
-                                        : !isCompleted;
-                                    },
-                                  ).length > 0 ? (
-                                    (period.details[type] || [])
-                                      .filter((item) => {
-                                        if (filter === "All") return true;
-                                        const isCompleted = [
-                                          "Posted",
-                                          "Completed",
-                                          "Delivered",
-                                        ].includes(item.status);
-                                        return filter === "Completed"
-                                          ? isCompleted
-                                          : !isCompleted;
-                                      })
-                                      .map((item, i) => (
-                                        <div key={i} className="detail-card">
-                                          <h5>{item.title}</h5>
-                                          <p>with {item.creator}</p>
-                                          <span
-                                            className={`status-text ${item.status.toLowerCase().replace(" ", "-")}`}
-                                          >
+
+                          {/* Details grid */}
+                          <div className="grid grid-cols-3 gap-px border-t border-[#eee] bg-[#eee]">
+                            {["Reels", "Posts", "Stories"].map((type) => {
+                              const items = (
+                                period.details[type] || []
+                              ).filter((item) => {
+                                if (filter === "All") return true;
+                                const isCompleted = [
+                                  "Posted",
+                                  "Completed",
+                                  "Delivered",
+                                ].includes(item.status);
+                                return filter === "Completed"
+                                  ? isCompleted
+                                  : !isCompleted;
+                              });
+
+                              return (
+                                <div key={type} className="bg-white p-4">
+                                  <h4 className="m-0 mb-3 text-[0.9rem] uppercase tracking-[0.05em] text-[#888]">
+                                    {type}
+                                  </h4>
+                                  <div className="flex flex-col gap-3">
+                                    {items.length > 0 ? (
+                                      items.map((item, i) => (
+                                        <div
+                                          key={i}
+                                          className="rounded-lg bg-[#fafafa] p-3"
+                                        >
+                                          <h5 className="m-0 mb-1 text-[0.95rem]">
+                                            {item.title}
+                                          </h5>
+                                          <p className="m-0 mb-2 text-[0.85rem] text-[#666]">
+                                            with {item.creator}
+                                          </p>
+                                          <span className="text-xs font-semibold text-[#267060]">
                                             {item.status}
                                           </span>
                                         </div>
                                       ))
-                                  ) : (
-                                    <div className="empty-category">
-                                      No {filter.toLowerCase()} content
-                                    </div>
-                                  )}
+                                    ) : (
+                                      <div className="text-[0.85rem] italic text-[#ccc]">
+                                        No {filter.toLowerCase()} content
+                                      </div>
+                                    )}
+                                  </div>
                                 </div>
-                              </div>
-                            ))}
+                              );
+                            })}
                           </div>
                         </div>
                       )}

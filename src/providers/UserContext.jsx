@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import authService from '../services/authService';
 
 const UserContext = createContext();
@@ -6,6 +7,7 @@ const UserContext = createContext();
 const initialUser = { isLoggedIn: false, role: null };
 
 export const UserProvider = ({ children }) => {
+  const queryClient = useQueryClient();
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem('user');
     return saved ? JSON.parse(saved) : initialUser;
@@ -22,6 +24,7 @@ export const UserProvider = ({ children }) => {
 
   const logout = () => {
     authService.logout();
+    queryClient.clear();
     updateUser(initialUser);
   };
 

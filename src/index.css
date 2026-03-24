@@ -3,6 +3,34 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
+@theme {
+  /* ── Colors ── */
+  --color-coquette-blush: #ffd8e9;
+  --color-coquette-rose: #f5a6c9;
+  --color-coquette-ballet: #fff3f8;
+  --color-coquette-white: #ffffff;
+  --color-coquette-ink: #23161f;
+  --color-coquette-velvet: #3a2735;
+  --color-coquette-soft-black: #1b1018;
+
+  /* ── Border radius ── */
+  --radius-pill: 999px;
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+
+  /* ── Font families ── */
+  --font-display: "Playfair Display", serif;
+  --font-body: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+
+  /* ── Animations ── */
+  --animate-shimmer: shimmer 1.5s infinite;
+  --animate-fade-in: fadeIn 0.2s ease;
+  --animate-slide-up: slideUp 0.25s ease;
+}
+
 :root {
   --coquette-blush: #ffd8e9;
   --coquette-rose: #f5a6c9;
@@ -127,4 +155,34 @@ code {
 .admin-modal::-webkit-scrollbar-thumb:hover,
 .modal-card::-webkit-scrollbar-thumb:hover {
   background: rgba(28, 15, 25, 0.35);
+}
+
+/* ===== Keyframes (referenced by @theme --animate-*) ===== */
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
