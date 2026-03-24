@@ -259,25 +259,6 @@
   padding: 32px;
   max-height: 90vh;
   overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(28, 15, 25, 0.2) transparent;
-}
-
-.modal-content-inner::-webkit-scrollbar {
-  width: 6px;
-}
-
-.modal-content-inner::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.modal-content-inner::-webkit-scrollbar-thumb {
-  background: rgba(28, 15, 25, 0.2);
-  border-radius: 3px;
-}
-
-.modal-content-inner::-webkit-scrollbar-thumb:hover {
-  background: rgba(28, 15, 25, 0.35);
 }
 
 @keyframes slideUp {
