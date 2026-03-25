@@ -4,7 +4,7 @@ import './CreatorDashboardPage.css';
 import BusinessReferenceImages from '../components/BusinessReferenceImages';
 import CreatorUploads from '../components/CreatorUploads';
 import creatorService from '../services/creatorService';
-import { useUser } from '../components/UserContext';
+import { useUser } from '../providers/UserContext';
 import {
   loadCompletedTasks,
   loadUploadDrafts,

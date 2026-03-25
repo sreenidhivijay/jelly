@@ -54,75 +54,15 @@ function Header() {
             </Link>
           </li>
           {user.isLoggedIn && user.role === "creator" && (
-            <>
-              <li className="nav-item">
-                <Link
-                  to="/your-collabs"
-                  className="nav-link"
-                  onClick={closeMobileMenu}
-                >
-                  Discover
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  to="/collab-requests"
-                  className="nav-link"
-                  onClick={closeMobileMenu}
-                >
-                  Collab Requests
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  to="/collab-appointments"
-                  className="nav-link"
-                  onClick={closeMobileMenu}
-                >
-                  Content Calendar
-                </Link>
-              </li>
-            </>
-          )}
-          {user.isLoggedIn && user.role === "brand" && (
-            <>
-              <li className="nav-item">
-                <Link
-                  to="/your-creators"
-                  className="nav-link"
-                  onClick={closeMobileMenu}
-                >
-                  Campaign & Creator
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  to="/appointments"
-                  className="nav-link"
-                  onClick={closeMobileMenu}
-                >
-                  Campaign Planner
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  to="/feedback"
-                  className="nav-link"
-                  onClick={closeMobileMenu}
-                >
-                  Collab Notes
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  to="/search"
-                  className="nav-link"
-                  onClick={closeMobileMenu}
-                >
-                  <i className="fas fa-search"></i> Discover Creators
-                </Link>
-              </li>
-            </>
+            <li className="nav-item">
+              <Link
+                to="/creator-dashboard"
+                className="nav-link"
+                onClick={closeMobileMenu}
+              >
+                Dashboard
+              </Link>
+            </li>
           )}
         </ul>
       </div>
@@ -183,15 +123,6 @@ function Header() {
                         onClick={() => setProfileMenuOpen(false)}
                       >
                         Profile
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/creator-dashboard"
-                        className="dropdown-item"
-                        onClick={() => setProfileMenuOpen(false)}
-                      >
-                        Dashboard
                       </Link>
                     </li>
                     <li>
