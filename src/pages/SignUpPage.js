@@ -36,6 +36,7 @@ function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPasswords, setShowPasswords] = useState(false);
   const [role, setRole] = useState(""); // This now controls the view
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -144,13 +145,21 @@ function SignUpPage() {
           <div className="form-group password-field">
             <label>Password</label>
             <input
-              type="password"
+              type={showPasswords ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="input"
               placeholder="Min. 8 characters"
               required
             />
+            <label style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "8px", fontSize: "14px" }}>
+              <input
+                type="checkbox"
+                checked={showPasswords}
+                onChange={(e) => setShowPasswords(e.target.checked)}
+              />
+              Show password
+            </label>
             <ul className="password-requirements">
               {passwordRequirements.map((req, index) => (
                 <li key={index} className={req.isValid ? "valid" : "invalid"}>
@@ -162,7 +171,7 @@ function SignUpPage() {
           <div className="form-group">
             <label>Confirm password</label>
             <input
-              type="password"
+              type={showPasswords ? "text" : "password"}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="input"

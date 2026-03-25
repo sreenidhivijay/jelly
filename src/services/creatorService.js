@@ -55,6 +55,13 @@ const creatorService = {
   async clearBlockInvites(blockoutId) {
     return api.delete(`/creators/me/blackouts/${blockoutId}`);
   },
+
+  async getOpportunities() {
+    const opportunitiesPath =
+      process.env.REACT_APP_CREATOR_OPPORTUNITIES_PATH ||
+      "/creators/me/opportunities";
+    return api.get(opportunitiesPath);
+  },
 };
 
 export default creatorService;

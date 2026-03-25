@@ -198,6 +198,30 @@
   font-size: 13px;
 }
 
+.opportunities-error-card {
+  background: #fff5f5;
+  border: 1px solid #f3c4c4;
+  color: #8d2f2f;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.opportunities-error-card p {
+  margin: 0 0 10px;
+  font-size: 13px;
+}
+
+.btn-retry {
+  background: #1c0f19;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 @media (max-width: 900px) {
   .creator-dashboard {
     grid-template-columns: 1fr;

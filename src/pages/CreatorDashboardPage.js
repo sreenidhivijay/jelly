@@ -1,89 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import './CreatorDashboardPage.css';
 import BusinessReferenceImages from '../components/BusinessReferenceImages';
 import CreatorUploads from '../components/CreatorUploads';
+import creatorService from '../services/creatorService';
+import { useUser } from '../components/UserContext';
 import {
   loadCompletedTasks,
   loadUploadDrafts,
   saveCompletedTasks,
   saveUploadDrafts,
 } from '../utils/creatorTasksStorage';
-
-const initialPotentialTasks = [
-  {
-    id: 1,
-    sku: 'Reel',
-    location: 'Remote',
-    pay: '$150',
-    deadline: '2 days',
-    skills: 'Video Editing, Transitions',
-    brand: 'Glow Cosmetics',
-    description: 'Create a high-energy reel featuring our new summer palette. Focus on transitions and color popping.',
-    referenceImages: [
-      { id: 'glow-ref-1', url: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=900&q=80' },
-      { id: 'glow-ref-2', url: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80' },
-      { id: 'glow-ref-3', url: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=900&q=80' },
-    ],
-    deliverables: [
-      {
-        id: 'glow-del-1',
-        title: 'Hero Reel',
-        description: 'One 20-30s vertical reel with fast transitions and a final color-pop reveal.',
-        requiredType: 'video',
-      },
-      {
-        id: 'glow-del-2',
-        title: 'Cutdown Version',
-        description: 'One 8-12s cutdown optimized for paid social placement.',
-        requiredType: 'video',
-      },
-    ],
-  },
-  {
-    id: 2,
-    sku: 'Carousel',
-    location: 'On-site (NYC)',
-    pay: '$300',
-    deadline: '5 days',
-    skills: 'Photography, Lighting',
-    brand: 'Urban Eats',
-    description: 'We need 5 high-res photos of our new brunch menu. Natural lighting, overhead shots.',
-    referenceImages: [
-      { id: 'urban-ref-1', url: 'https://images.unsplash.com/photo-1494859802809-d069c3b71a8a?auto=format&fit=crop&w=900&q=80' },
-      { id: 'urban-ref-2', url: 'https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?auto=format&fit=crop&w=900&q=80' },
-    ],
-    deliverables: [
-      {
-        id: 'urban-del-1',
-        title: 'Brunch Carousel',
-        description: 'Five edited stills framed for a single Instagram carousel.',
-        requiredType: 'image',
-      },
-    ],
-  },
-  {
-    id: 3,
-    sku: 'Story Set',
-    location: 'Remote',
-    pay: '$80',
-    deadline: '24 hours',
-    skills: 'Graphic Design',
-    brand: 'TechNova',
-    description: 'Design a set of 3 stories announcing our flash sale. Use our brand colors (blue/white).',
-    referenceImages: [
-      { id: 'tech-ref-1', url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80' },
-    ],
-    deliverables: [
-      {
-        id: 'tech-del-1',
-        title: 'Story Card Set',
-        description: 'Three linked story cards with clear CTA and sale dates.',
-        requiredType: 'video',
-      },
-    ],
-  },
-];
 
 const initialCurrentTasks = [
   {
@@ -147,7 +74,8 @@ const initialCurrentTasks = [
 ];
 
 function CreatorDashboardPage() {
-  const [potentialTasks, setPotentialTasks] = useState(initialPotentialTasks);
+  const { user } = useUser();
+  const [potentialTasks, setPotentialTasks] = useState([]);
   const [currentTasks, setCurrentTasks] = useState(initialCurrentTasks);
   const [moneyEarned] = useState(1250);
   const [moneyPending] = useState(450);
@@ -157,6 +85,8 @@ function CreatorDashboardPage() {
   const [uploadedContentByTask, setUploadedContentByTask] = useState(() => loadUploadDrafts());
   const [completedTasks, setCompletedTasks] = useState(() => loadCompletedTasks());
   const [saveStateByTask, setSaveStateByTask] = useState({});
+  const [opportunitiesLoading, setOpportunitiesLoading] = useState(true);
+  const [opportunitiesError, setOpportunitiesError] = useState('');
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -172,6 +102,102 @@ function CreatorDashboardPage() {
   useEffect(() => {
     saveUploadDrafts(uploadedContentByTask);
   }, [uploadedContentByTask]);
+
+  const formatMoney = (amount) => {
+    if (amount === null || amount === undefined || amount === '') {
+      return 'Compensation TBD';
+    }
+
+    if (typeof amount === 'number') {
+      return `$${amount}`;
+    }
+
+    if (typeof amount === 'string') {
+      return amount.startsWith('$') ? amount : `$${amount}`;
+    }
+
+    return 'Compensation TBD';
+  };
+
+  const normalizeImages = (images) => {
+    if (!Array.isArray(images)) {
+      return [];
+    }
+
+    return images
+      .map((img, index) => {
+        if (typeof img === 'string') {
+          return { id: `img-${index}`, url: img };
+        }
+
+        const url = img?.url || img?.image_url || img?.src;
+        if (!url) {
+          return null;
+        }
+
+        return { id: img?.id || `img-${index}`, url };
+      })
+      .filter(Boolean);
+  };
+
+  const normalizeDeliverables = (deliverables) => {
+    if (!Array.isArray(deliverables)) {
+      return [];
+    }
+
+    return deliverables.map((deliverable, index) => ({
+      id: deliverable?.id || `deliverable-${index}`,
+      title: deliverable?.title || deliverable?.name || `Deliverable ${index + 1}`,
+      description: deliverable?.description || 'Complete the requested deliverable.',
+      requiredType: deliverable?.required_type || deliverable?.requiredType || 'image',
+    }));
+  };
+
+  const normalizeOpportunity = (opportunity, index) => {
+    const skillValue = opportunity?.skills || opportunity?.skill_tags || opportunity?.tags;
+    const skills = Array.isArray(skillValue) ? skillValue.join(', ') : (skillValue || 'General');
+
+    return {
+      id: opportunity?.id || opportunity?.opportunity_id || opportunity?.campaign_id || `opportunity-${index}`,
+      sku: opportunity?.sku || opportunity?.content_type || opportunity?.deliverable_type || 'Opportunity',
+      location: opportunity?.location || opportunity?.location_label || 'Remote',
+      pay: formatMoney(opportunity?.pay || opportunity?.payout || opportunity?.rate || opportunity?.compensation),
+      deadline: opportunity?.deadline || opportunity?.due_date || opportunity?.submission_deadline || 'TBD',
+      skills,
+      brand: opportunity?.brand_name || opportunity?.brand?.name || opportunity?.campaign_name || opportunity?.title || 'Brand',
+      description: opportunity?.description || opportunity?.summary || 'No additional details provided.',
+      referenceImages: normalizeImages(
+        opportunity?.reference_images || opportunity?.inspiration_images || opportunity?.images
+      ),
+      deliverables: normalizeDeliverables(opportunity?.deliverables),
+    };
+  };
+
+  const loadOpportunities = useCallback(async () => {
+    setOpportunitiesLoading(true);
+    setOpportunitiesError('');
+
+    try {
+      const response = await creatorService.getOpportunities();
+      const opportunities =
+        (Array.isArray(response) && response) ||
+        response?.opportunities ||
+        response?.new_opportunities ||
+        response?.items ||
+        [];
+
+      setPotentialTasks(opportunities.map((opportunity, index) => normalizeOpportunity(opportunity, index)));
+    } catch (error) {
+      setPotentialTasks([]);
+      setOpportunitiesError(error.message || 'Unable to load opportunities.');
+    } finally {
+      setOpportunitiesLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadOpportunities();
+  }, [loadOpportunities]);
 
   const formatTime = (seconds) => {
     const d = Math.floor(seconds / (3600 * 24));
@@ -281,7 +307,9 @@ function CreatorDashboardPage() {
     <div className="creator-dashboard">
       <div className="dashboard-main">
         <header>
-          <h1 style={{ fontSize: '32px', marginBottom: '8px' }}>Welcome back, Creator</h1>
+          <h1 style={{ fontSize: '32px', marginBottom: '8px' }}>
+            Welcome back, {user?.firstName || 'Creator'}
+          </h1>
           <p style={{ color: '#666' }}>Here is what's happening with your content.</p>
           <div style={{ marginTop: '14px' }}>
             <Link className="view-completed-link" to="/creator-completed-tasks">
@@ -349,8 +377,19 @@ function CreatorDashboardPage() {
 
       <aside className="dashboard-sidebar">
         <h3 style={{ fontSize: '20px' }}>New Opportunities</h3>
-        {potentialTasks.length === 0 && <p style={{ color: '#888', fontStyle: 'italic' }}>No new tasks available right now.</p>}
-        {potentialTasks.map(task => (
+        {opportunitiesLoading && <p style={{ color: '#888', fontStyle: 'italic' }}>Loading opportunities...</p>}
+        {!opportunitiesLoading && opportunitiesError && (
+          <div className="opportunities-error-card">
+            <p>{opportunitiesError}</p>
+            <button type="button" className="btn-retry" onClick={loadOpportunities}>
+              Retry
+            </button>
+          </div>
+        )}
+        {!opportunitiesLoading && !opportunitiesError && potentialTasks.length === 0 && (
+          <p style={{ color: '#888', fontStyle: 'italic' }}>No new tasks available right now.</p>
+        )}
+        {!opportunitiesLoading && !opportunitiesError && potentialTasks.map(task => (
           <div key={task.id} className="potential-task-card" onClick={() => handleTaskClick(task, 'opportunity')} style={{ cursor: 'pointer' }}>
             <div className="pt-header">
               <span className="sku-badge">{task.sku}</span>

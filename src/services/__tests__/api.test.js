@@ -65,17 +65,31 @@ describe("api module", () => {
       });
     });
 
-    it("clears auth and redirects on 401", async () => {
+    it("clears auth and redirects on protected-route 401", async () => {
       localStorage.setItem("token", "expired-token");
       localStorage.setItem("user", '{"id":1}');
 
-      const error = { response: { status: 401 } };
+      const error = { response: { status: 401 }, config: { url: "/auth/me" } };
       await expect(responseErrorInterceptor(error)).rejects.toThrow(
         "Session expired"
       );
       expect(localStorage.getItem("token")).toBeNull();
       expect(localStorage.getItem("user")).toBeNull();
       expect(window.location.href).toBe("/login");
+    });
+
+    it("does not redirect on login 401", async () => {
+      localStorage.setItem("token", "stale-token");
+      const error = {
+        response: { status: 401, data: { detail: "Invalid email or password" } },
+        config: { url: "/auth/login" },
+      };
+
+      await expect(responseErrorInterceptor(error)).rejects.toThrow(
+        "Invalid email or password"
+      );
+      expect(localStorage.getItem("token")).toBe("stale-token");
+      expect(window.location.href).toBe("");
     });
 
     it("extracts detail message from error response", async () => {
@@ -94,10 +108,19 @@ describe("api module", () => {
       );
     });
 
-    it("handles network error with no response", async () => {
-      const error = {};
+    it("extracts message field when detail is missing", async () => {
+      const error = {
+        response: { status: 400, data: { message: "Bad request payload" } },
+      };
       await expect(responseErrorInterceptor(error)).rejects.toThrow(
-        "Something went wrong"
+        "Bad request payload"
+      );
+    });
+
+    it("handles network error with no response", async () => {
+      const error = { request: {} };
+      await expect(responseErrorInterceptor(error)).rejects.toThrow(
+        "Unable to reach the server. Check your API URL and network."
       );
     });
   });

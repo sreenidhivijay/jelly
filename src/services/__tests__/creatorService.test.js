@@ -152,4 +152,38 @@ describe("creatorService", () => {
       );
     });
   });
+
+  describe("getOpportunities", () => {
+    const originalEnv = process.env;
+
+    beforeEach(() => {
+      process.env = { ...originalEnv };
+    });
+
+    afterAll(() => {
+      process.env = originalEnv;
+    });
+
+    it("fetches creator opportunities from default endpoint", async () => {
+      api.get.mockResolvedValue([{ id: 1 }]);
+
+      const result = await creatorService.getOpportunities();
+
+      expect(api.get).toHaveBeenCalledWith("/creators/me/opportunities");
+      expect(result).toEqual([{ id: 1 }]);
+    });
+
+    it("uses custom opportunities endpoint when configured", async () => {
+      process.env.REACT_APP_CREATOR_OPPORTUNITIES_PATH =
+        "/creator-account/me/new-opportunities";
+      api.get.mockResolvedValue([{ id: 2 }]);
+
+      const result = await creatorService.getOpportunities();
+
+      expect(api.get).toHaveBeenCalledWith(
+        "/creator-account/me/new-opportunities"
+      );
+      expect(result).toEqual([{ id: 2 }]);
+    });
+  });
 });
