@@ -169,7 +169,15 @@ function SignUpPage() {
               placeholder="Min. 8 characters"
               required
             />
-            <label style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "8px", fontSize: "14px" }}>
+            <label
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                marginTop: "8px",
+                fontSize: "14px",
+              }}
+            >
               <input
                 type="checkbox"
                 checked={showPasswords}

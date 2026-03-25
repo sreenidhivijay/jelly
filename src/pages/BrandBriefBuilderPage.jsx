@@ -147,6 +147,9 @@ export default function BrandBriefBuilderPage() {
   );
   const [animating, setAnimating] = useState(false);
   const [direction, setDirection] = useState("forward");
+  const [highestStepReached, setHighestStepReached] = useState(
+    isEditing ? STEPS.length - 1 : 0,
+  );
 
   // Step data — restore from localStorage if available
   const [personality, setPersonality] = useState(
@@ -170,19 +173,21 @@ export default function BrandBriefBuilderPage() {
   );
 
   const goTo = useCallback(
-    (stepIndex) => {
+    (stepIndex, { allowSkip = false } = {}) => {
       if (animating || stepIndex === currentStep) return;
+      if (!allowSkip && stepIndex > highestStepReached) return;
       setDirection(stepIndex > currentStep ? "forward" : "backward");
       setAnimating(true);
       setTimeout(() => {
         setCurrentStep(stepIndex);
+        setHighestStepReached((prev) => Math.max(prev, stepIndex));
         setAnimating(false);
       }, 300);
     },
-    [animating, currentStep],
+    [animating, currentStep, highestStepReached],
   );
 
-  const next = () => goTo(currentStep + 1);
+  const next = () => goTo(currentStep + 1, { allowSkip: true });
   const prev = () => goTo(currentStep - 1);
 
   const toggleTone = (tone) => {
@@ -797,8 +802,9 @@ export default function BrandBriefBuilderPage() {
             {STEPS.slice(1).map((step, i) => (
               <button
                 key={step.id}
-                className={`bb-step-dot ${i + 1 <= currentStep ? "active" : ""} ${i + 1 === currentStep ? "current" : ""}`}
+                className={`bb-step-dot ${i + 1 <= currentStep ? "active" : ""} ${i + 1 === currentStep ? "current" : ""} ${i + 1 > highestStepReached ? "disabled" : ""}`}
                 onClick={() => goTo(i + 1)}
+                disabled={i + 1 > highestStepReached}
                 title={step.label}
               >
                 <span className="bb-dot-label">{step.label}</span>

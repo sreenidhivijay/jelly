@@ -67,6 +67,11 @@
   font-weight: 600;
 }
 
+.bb-step-dot.disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
 /* ===== Step Transitions ===== */
 .bb-step-container {
   position: relative;
