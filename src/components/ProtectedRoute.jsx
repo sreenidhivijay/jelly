@@ -5,6 +5,8 @@ function ProtectedRoute({ allowedRoles }) {
   const { user } = useUser();
   const location = useLocation();
 
+  return <Outlet />;
+
   if (!user.isLoggedIn) {
     return <Navigate to="/login" state={{ redirectTo: location.pathname }} replace />;
   }

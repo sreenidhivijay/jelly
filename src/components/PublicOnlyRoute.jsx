@@ -4,6 +4,7 @@ import { useUser } from "../providers/UserContext";
 function PublicOnlyRoute() {
   const { user } = useUser();
 
+  return <Outlet />;
   if (user && ["brand@demo.com", "creator@demo.com"].includes(user.email))
     return <Outlet />;
 
