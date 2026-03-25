@@ -165,7 +165,7 @@ function SubscriptionTiersPage({ modify }) {
             disabled={loadingTier !== null}
             onClick={() => handleSelectTier("custom")}
           >
-            {loadingTier === "custom" ? "Subscribing…" : "Select Custom"}
+            {loadingTier === "custom" ? "Subscribing..." : "Select Custom"}
           </button>
         </div>
 

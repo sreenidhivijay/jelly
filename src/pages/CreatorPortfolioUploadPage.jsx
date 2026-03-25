@@ -13,6 +13,7 @@ function CreatorPortfolioUploadPage() {
   const onboardingState = location.state || {};
   const [portfolioFiles, setPortfolioFiles] = useState([]);
   const [message, setMessage] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleFileSelection = (event) => {
     const selectedFiles = Array.from(event.target.files || []);
@@ -51,14 +52,21 @@ function CreatorPortfolioUploadPage() {
       return;
     }
 
-    await creatorService.uploadPortfolio(portfolioFiles);
+    setIsUploading(true);
+    try {
+      await creatorService.uploadPortfolio(portfolioFiles);
 
-    navigate('/signup/creator/approval', {
-      state: {
-        ...onboardingState,
-        portfolioCount: portfolioFiles.length,
-      },
-    });
+      navigate('/signup/creator/approval', {
+        state: {
+          ...onboardingState,
+          portfolioCount: portfolioFiles.length,
+        },
+      });
+    } catch (error) {
+      setMessage('Upload failed. Please try again.');
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
@@ -106,8 +114,8 @@ function CreatorPortfolioUploadPage() {
           )}
         </section>
 
-        <button type="submit" className="continue-button">
-          Continue to review
+        <button type="submit" className="continue-button" disabled={isUploading}>
+          {isUploading ? 'Uploading...' : 'Continue to review'}
         </button>
       </form>
     </div>

@@ -1448,7 +1448,7 @@ const brandBriefTemplates = {
             description:
               "Start with a bare face, then cut to a dramatic bold look. Use quick transitions for impact.",
             hooks: [
-              "Wait for the transformation…",
+              "Wait for the transformation...",
               "I went ALL IN with this palette.",
             ],
           },
