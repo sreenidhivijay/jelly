@@ -5,7 +5,10 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #fdf6f9; /* light pink */
+  background:
+    radial-gradient(circle at 15% 20%, rgba(27, 77, 255, 0.14), transparent 45%),
+    radial-gradient(circle at 85% 10%, rgba(255, 59, 48, 0.1), transparent 60%),
+    var(--coquette-ballet);
 }
 
 .login-card {
@@ -14,8 +17,8 @@
   padding: 32px;
   background: rgba(255, 255, 255, 0.92);
   border-radius: 16px; /* Assuming from var(--radius-lg) */
-  border: 1px solid rgba(58, 39, 53, 0.1);
-  box-shadow: 0 40px 52px rgba(245, 166, 201, 0.24);
+  border: 1px solid var(--coquette-border);
+  box-shadow: var(--coquette-shadow);
   display: flex;
   flex-direction: column;
   gap: 28px;
@@ -38,7 +41,7 @@
 }
 
 .login-header p {
-  color: rgba(35, 22, 31, 0.7);
+  color: rgba(15, 23, 42, 0.72);
   line-height: 1.7;
   max-width: 400px;
   margin: 0 auto;
@@ -60,14 +63,14 @@
   font-size: 13px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: rgba(35, 22, 31, 0.6);
+  color: rgba(15, 23, 42, 0.62);
   font-weight: 600;
 }
 
 .login-input {
   padding: 12px 14px;
   border-radius: 8px; /* Assuming from var(--radius-sm) */
-  border: 1px solid rgba(58, 39, 53, 0.16);
+  border: 1px solid var(--coquette-border);
   background: rgba(255, 255, 255, 0.92);
   font-size: 14px;
   transition: all 0.2s ease-in-out;
@@ -75,8 +78,8 @@
 
 .login-input:focus {
   outline: none;
-  border-color: #f5a6c9; /* var(--coquette-rose) */
-  box-shadow: 0 0 0 4px rgba(245, 166, 201, 0.2);
+  border-color: var(--coquette-rose);
+  box-shadow: 0 0 0 4px rgba(27, 77, 255, 0.18);
 }
 
 .login-button {
@@ -84,7 +87,7 @@
   padding: 16px 28px;
   border-radius: 99px; /* Assuming from var(--radius-pill) */
   border: none;
-  background: #f5a6c9; /* var(--coquette-rose) */
+  background: var(--coquette-rose);
   color: #fff; /* var(--coquette-white) */
   font-size: 15px;
   font-weight: 700;
@@ -92,13 +95,13 @@
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 24px 36px rgba(245, 166, 201, 0.32);
+  box-shadow: 0 24px 36px rgba(27, 77, 255, 0.24);
   margin-top: 1rem;
 }
 
 .login-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 28px 42px rgba(245, 166, 201, 0.38);
+  box-shadow: 0 28px 42px rgba(27, 77, 255, 0.3);
 }
 
 .login-error {
@@ -111,13 +114,13 @@
 }
 
 .login-hint {
-  background-color: rgba(245, 166, 201, 0.1);
-  border: 1px solid rgba(245, 166, 201, 0.3);
+  background-color: rgba(27, 77, 255, 0.08);
+  border: 1px solid rgba(27, 77, 255, 0.18);
   padding: 16px;
   border-radius: 8px;
   font-size: 13px;
   text-align: center;
-  color: #582739;
+  color: rgba(15, 23, 42, 0.78);
 }
 
 .login-hint p {

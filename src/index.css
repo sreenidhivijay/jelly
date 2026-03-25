@@ -5,13 +5,14 @@
 
 @theme {
   /* ── Colors ── */
-  --color-coquette-blush: #ffd8e9;
-  --color-coquette-rose: #f5a6c9;
-  --color-coquette-ballet: #fff3f8;
+  /* Jelly palette (blue + light neutrals + red accent) */
+  --color-coquette-blush: #e9f2ff; /* light blue tint */
+  --color-coquette-rose: #1e3a8a; /* primary muted blue */
+  --color-coquette-ballet: #f7fbff; /* page background */
   --color-coquette-white: #ffffff;
-  --color-coquette-ink: #23161f;
-  --color-coquette-velvet: #3a2735;
-  --color-coquette-soft-black: #1b1018;
+  --color-coquette-ink: #0b1220; /* deep ink */
+  --color-coquette-velvet: #1a2740; /* secondary ink */
+  --color-coquette-soft-black: #0f172a; /* body text */
 
   /* ── Border radius ── */
   --radius-pill: 999px;
@@ -32,21 +33,27 @@
 }
 
 :root {
-  --coquette-blush: #ffd8e9;
-  --coquette-rose: #f5a6c9;
-  --coquette-ballet: #fff3f8;
+  /* Jelly palette (kept variable names to avoid touching every page) */
+  --coquette-blush: #e9f2ff;
+  --coquette-rose: #1e3a8a;
+  --coquette-ballet: #f7fbff;
   --coquette-white: #ffffff;
-  --coquette-ink: #23161f;
-  --coquette-velvet: #3a2735;
-  --coquette-soft-black: #1b1018;
-  --coquette-border: rgba(58, 39, 53, 0.18);
-  --coquette-shadow: 0 20px 48px rgba(58, 39, 53, 0.25);
-  --coquette-silver: rgba(247, 247, 247, 0.3);
+  --coquette-ink: #0b1220;
+  --coquette-velvet: #1a2740;
+  --coquette-soft-black: #0f172a;
+  --coquette-border: rgba(15, 23, 42, 0.16);
+  --coquette-shadow: 0 20px 48px rgba(15, 23, 42, 0.18);
+  --coquette-silver: rgba(255, 255, 255, 0.35);
   --radius-pill: 999px;
   --radius-lg: 28px;
   --radius-md: 18px;
   --radius-sm: 12px;
   --transition-base: all 0.25s ease;
+
+  /* Additional accents for newer UI */
+  --jelly-blue: #1e3a8a;
+  --jelly-blue-2: #3b82f6;
+  --jelly-red: #ff3b30;
 }
 
 * {
@@ -73,13 +80,18 @@ body {
   background:
     radial-gradient(
       circle at 15% 20%,
-      rgba(255, 216, 235, 0.5),
+      rgba(30, 58, 138, 0.16),
       transparent 45%
     ),
     radial-gradient(
       circle at 85% 10%,
-      rgba(245, 166, 201, 0.35),
+      rgba(255, 59, 48, 0.12),
       transparent 60%
+    ),
+    radial-gradient(
+      circle at 70% 90%,
+      rgba(59, 130, 246, 0.12),
+      transparent 55%
     ),
     var(--coquette-ballet);
   color: var(--coquette-soft-black);
