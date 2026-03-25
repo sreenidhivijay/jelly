@@ -277,7 +277,7 @@ function HomePage() {
         </motion.ol>
       </motion.section>
 
-      <motion.section
+      {/* <motion.section
         className="runway-grid"
         variants={reveal}
         initial="hidden"
@@ -328,7 +328,7 @@ function HomePage() {
             </motion.article>
           ))}
         </motion.div>
-      </motion.section>
+      </motion.section> */}
 
       <motion.section
         className="newsletter-panel"
