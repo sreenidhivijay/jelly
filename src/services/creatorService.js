@@ -11,7 +11,7 @@ const creatorService = {
   },
 
   async getPortfolio() {
-    return api.get("/creators/me/portfolio");
+    return api.get("/creators/me/portfolios");
   },
 
   async updateProfile(fields) {
@@ -35,14 +35,14 @@ const creatorService = {
   async uploadPortfolio(files) {
     const uploadPromises = files.map(async (file) => {
       const objectKey = await uploadService.uploadFile(file, "portfolio");
-      await api.post("/creators/me/portfolio", { file_key: objectKey });
+      await api.post("/creators/me/portfolios", { file_key: objectKey });
       return objectKey;
     });
     return Promise.all(uploadPromises);
   },
 
   async deletePortfolioItem(itemId) {
-    return api.delete(`/creators/me/portfolio/${itemId}`);
+    return api.delete(`/creators/me/portfolios/${itemId}`);
   },
 
   async blockInvites(blockStart, blockEnd) {
