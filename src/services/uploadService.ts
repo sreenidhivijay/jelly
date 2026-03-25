@@ -6,7 +6,10 @@ const uploadService = {
    * Get a presigned URL from the backend, then upload the file directly to R2.
    * Returns the public URL of the uploaded file.
    */
-  async uploadFile(file, type) {
+  async uploadFile(
+    file: File,
+    type: "video" | "profile-image" | "intro-video" | "portfolio",
+  ): Promise<string> {
     // 1. Request a presigned URL from our backend
     const { presigned_url, object_key } = await api.post(`/uploads/${type}`, {
       file_name: file.name,

@@ -44,14 +44,14 @@ function CreatorPortfolioUploadPage() {
     setMessage('');
   };
 
-  const handleContinue = (event) => {
+  const handleContinue = async (event) => {
     event.preventDefault();
     if (portfolioFiles.length === 0) {
       setMessage('Please upload at least one reel or portfolio sample to continue.');
       return;
     }
 
-    creatorService.uploadPortfolio(portfolioFiles);
+    await creatorService.uploadPortfolio(portfolioFiles);
 
     navigate('/signup/creator/approval', {
       state: {
